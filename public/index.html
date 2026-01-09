@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>llamaload.com – Generate Clean Website Mockups</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Paste a URL, choose a visual style, and llamaload.com turns it into a clean browser mockup in light, dark, greyscale and more."
+  />
+  <!-- html2canvas for client-side image export -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --bg-elevated: rgba(15, 23, 42, 0.98);
+      --border-subtle: rgba(55, 65, 81, 0.9);
+      --primary: #6366f1;
+      --primary-soft: #8b5cf6;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background:
+        radial-gradient(circle at top, #111827 0, #020617 50%),
+        linear-gradient(180deg, #020617, #020617);
+      color: var(--text-main);
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 18px 20px 40px;
+    }
+
+    /* NAVBAR */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 8px 4px 16px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 30% 20%, #a5b4fc, #4f46e5 40%, #020617 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(129, 140, 248, 0.6);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #e5e7eb;
+    }
+
+    .logo-text {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      font-size: 1rem;
+    }
+
+    .logo-sub {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links a {
+      padding: 6px 8px;
+      border-radius: 999px;
+    }
+
+    .nav-links a:hover {
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-main);
+    }
+
+    .nav-cta {
+      font-size: 0.8rem;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--text-main);
+      background: rgba(15, 23, 42, 0.9);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .nav-cta span.icon {
+      font-size: 1rem;
+    }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 28px;
+      align-items: center;
+      padding: 18px 4px 26px;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px 4px 4px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      margin-bottom: 10px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .hero-kicker-pill {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(129, 140, 248, 0.1);
+      color: #a5b4fc;
+      font-weight: 500;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.1rem, 3vw, 2.6rem);
+      margin: 0 0 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 span.highlight {
+      background: linear-gradient(120deg, #a5b4fc, #f97316);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 0.8rem 1.3rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-soft));
+      color: white;
+      box-shadow: 0 16px 30px rgba(79, 70, 229, 0.45);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.05);
+    }
+
+    .btn-secondary {
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-main);
+      border: 1px solid rgba(75, 85, 99, 0.9);
+    }
+
+    .hero-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .hero-meta strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .hero-visual {
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-preview {
+      background: radial-gradient(circle at top left, rgba(129, 140, 248, 0.2), transparent 55%);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      width: 100%;
+    }
+
+    .hero-preview-inner {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(31, 41, 55, 0.95);
+      background: rgba(15, 23, 42, 0.96);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      padding: 14px 16px;
+    }
+
+    .hero-preview-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .hero-preview-dots {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .hero-preview-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+    }
+
+    .hero-preview-dot.red { background: #fb7185; }
+    .hero-preview-dot.yellow { background: #facc15; }
+    .hero-preview-dot.green { background: #4ade80; }
+
+    .hero-preview-chip {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.7rem;
+    }
+
+    .hero-preview-body {
+      border-radius: 14px;
+      border: 1px solid #111827;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: #6b7280;
+      text-align: center;
+      padding: 8px;
+    }
+
+    /* TRUST ROW */
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      padding: 0 4px 22px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .trust-label {
+      opacity: 0.8;
+    }
+
+    .trust-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .trust-badge {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 5px 9px;
+      background: rgba(15, 23, 42, 0.95);
+      font-size: 0.78rem;
+    }
+
+    /* SECTIONS */
+    .section {
+      padding: 16px 4px 8px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 12px;
+      gap: 14px;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .section-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* FEATURES GRID */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .feature-card {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(31, 41, 55, 0.95);
+      padding: 12px 12px 10px;
+      font-size: 0.86rem;
+    }
+
+    .feature-label {
+      font-size: 0.75rem;
+      color: #a5b4fc;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .feature-title {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .feature-body {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .step {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(31, 41, 55, 0.95);
+      padding: 10px 12px;
+      font-size: 0.84rem;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(129, 140, 248, 0.16);
+      border: 1px solid rgba(129, 140, 248, 0.5);
+      color: #c7d2fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .step-title {
+      font-size: 0.86rem;
+      margin-bottom: 2px;
+    }
+
+    .step-body {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* APP (GENERATOR) */
+    .section-app {
+      margin-top: 18px;
+    }
+
+    .app-shell {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(31, 41, 55, 0.98);
+      box-shadow: var(--shadow-lg);
+      padding: 18px 18px 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .app-panel {
+      background: rgba(2, 6, 23, 0.98);
+      border-radius: var(--radius-md);
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+    }
+
+    .app-panel h2 {
+      font-size: 1rem;
+      margin: 0 0 8px;
+    }
+
+    .app-panel p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0 0 12px;
+    }
+
+    label {
+      font-size: 0.85rem;
+      color: #cbd5f5;
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 0.7rem 0.8rem;
+      border-radius: 10px;
+      border: 1px solid #374151;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+
+    .field-group {
+      margin-bottom: 0.9rem;
+    }
+
+    .hint {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 0.35rem;
+    }
+
+    .btn-full {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-secondary-ghost {
+      width: 100%;
+      justify-content: center;
+      margin-top: 0.75rem;
+      background: transparent;
+      border: 1px solid #4b5563;
+      color: var(--text-main);
+      font-size: 0.85rem;
+      padding: 0.7rem 1.2rem;
+      cursor: pointer;
+    }
+
+    .btn-secondary-ghost:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    .status {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
+      min-height: 1.1em;
+    }
+
+    .app-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.7rem;
+    }
+
+    /* Browser mockup (preview) */
+    .mockup-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mockup-title {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+
+    .browser-mockup {
+      background: #020617;
+      border-radius: 16px;
+      border: 1px solid #111827;
+      overflow: hidden;
+      max-width: 640px;
+      margin: 0 auto;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(6px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .browser-mockup.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .browser-topbar {
+      display: flex;
+      align-items: center;
+      padding: 6px 10px;
+      gap: 10px;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      opacity: 0.9;
+    }
+
+    .browser-url {
+      flex: 1;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .browser-url span.scheme {
+      color: #9ca3af;
+      flex-shrink: 0;
+    }
+
+    .browser-content {
+      flex: 1;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .browser-content img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: filter 0.15s ease;
+    }
+
+    .empty-state {
+      border-radius: 14px;
+      padding: 24px 18px;
+      border: 1px dashed #374151;
+      text-align: center;
+      color: #6b7280;
+      font-size: 0.82rem;
+    }
+
+    /* VISUAL STYLES */
+
+    /* Dark mode (default) */
+    .style-dark .browser-topbar {
+      background: linear-gradient(180deg, #111827, #020617);
+    }
+    .style-dark .browser-url {
+      background: #020617;
+      border: 1px solid #374151;
+      color: #e5e7eb;
+    }
+    .style-dark .dot.red { background: #f97373; }
+    .style-dark .dot.yellow { background: #facc15; }
+    .style-dark .dot.green { background: #4ade80; }
+
+    /* Light mode */
+    .style-light .browser-topbar {
+      background: linear-gradient(180deg, #f9fafb, #e5e7eb);
+      color: #111827;
+    }
+    .style-light .browser-url {
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      color: #111827;
+    }
+    .style-light .browser-url span.scheme {
+      color: #6b7280;
+    }
+    .style-light .dot.red { background: #fb5f57; }
+    .style-light .dot.yellow { background: #fdbc2e; }
+    .style-light .dot.green { background: #28c840; }
+
+    /* Greyscale */
+    .style-greyscale .browser-topbar {
+      background: linear-gradient(180deg, #111827, #1f2937);
+    }
+    .style-greyscale .browser-url {
+      background: #0f172a;
+      border: 1px solid #4b5563;
+      color: #e5e7eb;
+    }
+    .style-greyscale .dot.red,
+    .style-greyscale .dot.yellow,
+    .style-greyscale .dot.green {
+      background: #6b7280;
+    }
+    .style-greyscale .browser-content img {
+      filter: grayscale(100%);
+    }
+
+    /* Soft Slate (muted, professional accent) */
+    .style-slate .browser-topbar {
+      background: linear-gradient(90deg, #020617, #111827);
+      box-shadow: inset 0 -1px 0 rgba(148, 163, 184, 0.3);
+    }
+    .style-slate .browser-url {
+      background: #020617;
+      border: 1px solid #4b5563;
+      color: #e5e7eb;
+    }
+    .style-slate .dot.red { background: #6366f1; }
+    .style-slate .dot.yellow { background: #818cf8; }
+    .style-slate .dot.green { background: #a5b4fc; }
+
+    /* FOOTER */
+    footer {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 20px 22px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    footer a {
+      color: #9ca3af;
+    }
+
+    footer a:hover {
+      color: #e5e7eb;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-visual {
+        order: -1;
+      }
+      .hero-preview-body {
+        aspect-ratio: 16 / 10;
+      }
+      .app-shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .features-grid,
+      .steps {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 14px 14px 28px;
+      }
+      .app-shell {
+        padding: 14px 14px 16px;
+      }
+      .app-panel {
+        padding: 14px 14px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <!-- NAVBAR -->
+    <header class="nav">
+      <div class="nav-left">
+        <div class="logo-mark">ll</div>
+        <div>
+          <div class="logo-text">llamaload.com</div>
+          <div class="logo-sub">URL → clean browser mockup</div>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#app">Try it</a>
+      </nav>
+      <button class="nav-cta" onclick="document.getElementById('url').focus()">
+        <span class="icon">✨</span>
+        <span>Launch generator</span>
+      </button>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <div class="hero-kicker">
+          <span class="hero-kicker-pill">New</span>
+          <span>Generate clean browser mockups from any URL.</span>
+        </div>
+        <h1>
+          Turn any website into a
+          <span class="highlight">client-ready mockup</span>
+          in seconds.
+        </h1>
+        <p class="hero-subtitle">
+          Paste a link, pick a professional visual style, and llamaload.com
+          captures a 16:9 top-of-page screenshot wrapped in a polished browser
+          frame — ready for decks, landing pages, and social posts.
+        </p>
+        <div class="hero-cta">
+          <button
+            class="btn btn-primary"
+            onclick="document.getElementById('app').scrollIntoView({ behavior: 'smooth' })"
+          >
+            Try the generator
+            <span>→</span>
+          </button>
+          <button
+            class="btn btn-secondary"
+            onclick="document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' })"
+          >
+            See how it works
+          </button>
+        </div>
+        <div class="hero-meta">
+          <span><strong>No signup</strong> required</span>
+          <span>•</span>
+          <span><strong>16:9</strong> top-of-page captures</span>
+          <span>•</span>
+          <span>Light, dark, greyscale & slate styles</span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-preview">
+          <div class="hero-preview-inner">
+            <div class="hero-preview-top">
+              <div class="hero-preview-dots">
+                <div class="hero-preview-dot red"></div>
+                <div class="hero-preview-dot yellow"></div>
+                <div class="hero-preview-dot green"></div>
+              </div>
+              <div class="hero-preview-chip">
+                <span>llamaload-mockup.png</span>
+                <span>⬇️</span>
+              </div>
+            </div>
+            <div class="hero-preview-body">
+              Paste a URL below and choose a visual style to see your site
+              rendered inside a browser mockup.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST ROW -->
+    <section class="trust-row">
+      <div class="trust-label">Built for people who ship quickly</div>
+      <div class="trust-badges">
+        <div class="trust-badge">Indie hackers</div>
+        <div class="trust-badge">Product designers</div>
+        <div class="trust-badge">SaaS founders</div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Why llamaload.com?</div>
+          <div class="section-subtitle">
+            A small, focused tool so you don’t have to fight Figma for every mockup.
+          </div>
+        </div>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-label">Fast by default</div>
+          <div class="feature-title">Paste, pick, done</div>
+          <div class="feature-body">
+            No templates or components to wire up. Paste a URL, choose a
+            visual mode, and download a ready-to-use mockup.
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-label">On-brand</div>
+          <div class="feature-title">Professional visual styles</div>
+          <div class="feature-body">
+            Switch between light, dark, greyscale and soft slate to match your
+            brand, mood, or slide deck theme.
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-label">Ready to ship</div>
+          <div class="feature-title">Crisp PNG export</div>
+          <div class="feature-body">
+            Download high-quality PNGs sized to a 16:9 ratio — perfect for
+            presentations, landing pages or social updates.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works" class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">How it works</div>
+          <div class="section-subtitle">
+            Three quick steps from URL to polished mockup.
+          </div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div>
+            <div class="step-title">Paste your URL</div>
+            <div class="step-body">
+              Drop in any public website address — we’ll automatically add
+              <code>https://</code> if you forget it.
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div>
+            <div class="step-title">Choose a visual mode</div>
+            <div class="step-body">
+              Pick from light, dark, greyscale or soft slate to match your
+              project’s look and feel.
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div>
+            <div class="step-title">Generate & download</div>
+            <div class="step-body">
+              llamaload.com captures a 16:9 screenshot of the top of the page,
+              frames it, and exports a PNG for you.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APP SECTION -->
+    <section id="app" class="section section-app">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Try the mockup generator</div>
+          <div class="section-subtitle">
+            No signup. Just paste a URL, choose a style, and export your mockup.
+          </div>
+        </div>
+      </div>
+
+      <div class="app-shell">
+        <!-- Left: Controls -->
+        <div class="app-panel">
+          <h2>Generate a browser mockup</h2>
+          <p>
+            Enter a URL, choose a visual mode, and llamaload.com will capture a
+            16:9 screenshot of the top of the page wrapped in a clean browser
+            frame.
+          </p>
+
+          <form id="mockupForm">
+            <div class="field-group">
+              <label for="url">Website URL</label>
+              <input
+                type="text"
+                id="url"
+                name="url"
+                placeholder="https://example.com"
+                required
+              />
+              <div class="hint">
+                You can also type <code>example.com</code> — we’ll add
+                <code>https://</code> for you.
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="style">Visual mode</label>
+              <select id="style" name="style">
+                <option value="dark" selected>Dark</option>
+                <option value="light">Light</option>
+                <option value="greyscale">Greyscale</option>
+                <option value="slate">Soft slate</option>
+              </select>
+              <div class="hint">
+                Choose a professional look that fits your slide deck or brand.
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full" id="generateBtn">
+              Generate mockup
+              <span>✨</span>
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-secondary-ghost"
+              id="downloadBtn"
+              disabled
+            >
+              Download PNG
+              <span>⬇️</span>
+            </button>
+
+            <div class="status" id="status"></div>
+            <div class="app-note">
+              Tip: Save a light and dark variant for the same URL so you can
+              choose what works best in context.
+            </div>
+          </form>
+        </div>
+
+        <!-- Right: Mockup preview -->
+        <div class="app-panel mockup-panel">
+          <div class="mockup-title">Live preview</div>
+          <div id="emptyState" class="empty-state">
+            No mockup yet. Enter a URL on the left and click
+            <strong>Generate mockup</strong> to see your site inside a browser
+            frame.
+          </div>
+
+          <div
+            id="mockupContainer"
+            class="browser-mockup style-dark"
+            aria-label="Browser mockup preview"
+          >
+            <div class="browser-topbar">
+              <div class="browser-dots">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+              </div>
+              <div class="browser-url">
+                <span class="scheme" id="urlScheme">https://</span>
+                <span id="urlDisplay">example.com</span>
+              </div>
+            </div>
+            <div class="browser-content">
+              <img
+                id="mockupImage"
+                src=""
+                alt="Website screenshot preview"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>© <span id="year"></span> llamaload.com. Built for fast-moving builders.</div>
+    <div>
+      <a href="#features">Features</a> ·
+      <a href="#how-it-works">How it works</a> ·
+      <a href="#app">Launch app</a>
+    </div>
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const form = document.getElementById("mockupForm");
+    const statusEl = document.getElementById("status");
+    const generateBtn = document.getElementById("generateBtn");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const mockupContainer = document.getElementById("mockupContainer");
+    const mockupImage = document.getElementById("mockupImage");
+    const emptyState = document.getElementById("emptyState");
+    const styleSelect = document.getElementById("style");
+    const urlInput = document.getElementById("url");
+    const urlDisplay = document.getElementById("urlDisplay");
+    const urlScheme = document.getElementById("urlScheme");
+
+    function setStatus(message, isError = false) {
+      statusEl.textContent = message || "";
+      statusEl.style.color = isError ? "#f97373" : "#9ca3af";
+    }
+
+    function parseUrlDisplay(raw) {
+      if (!raw) return { scheme: "", host: "" };
+      let url = raw.trim();
+      let scheme = "";
+      if (/^https?:\/\//i.test(url)) {
+        const parts = url.split("://");
+        scheme = parts[0] + "://";
+        url = parts.slice(1).join("://");
+      } else {
+        scheme = "https://";
+      }
+      return { scheme, host: url };
+    }
+
+    function applyStyle() {
+      const style = styleSelect.value;
+      mockupContainer.classList.remove(
+        "style-dark",
+        "style-light",
+        "style-greyscale",
+        "style-slate"
+      );
+      mockupContainer.classList.add("style-" + style);
+    }
+
+    styleSelect.addEventListener("change", applyStyle);
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const url = urlInput.value.trim();
+      if (!url) {
+        setStatus("Please enter a URL.", true);
+        return;
+      }
+
+      setStatus("Generating screenshot and mockup...");
+      generateBtn.disabled = true;
+      downloadBtn.disabled = true;
+      generateBtn.textContent = "Working...";
+
+      try {
+        const body = new URLSearchParams();
+        body.append("url", url);
+
+        const response = await fetch("/api/screenshot", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+          },
+          body: body.toString(),
+        });
+
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(text || "Server error");
+        }
+
+        const blob = await response.blob();
+        const objectUrl = URL.createObjectURL(blob);
+        mockupImage.src = objectUrl;
+
+        const parsed = parseUrlDisplay(url);
+        urlScheme.textContent = parsed.scheme;
+        urlDisplay.textContent = parsed.host;
+
+        applyStyle();
+        mockupContainer.classList.add("visible");
+        emptyState.style.display = "none";
+        downloadBtn.disabled = false;
+        setStatus("Mockup generated. You can now download it as a PNG.");
+      } catch (err) {
+        console.error(err);
+        setStatus("Error: " + err.message, true);
+      } finally {
+        generateBtn.disabled = false;
+        generateBtn.textContent = "Generate mockup ✨";
+      }
+    });
+
+    downloadBtn.addEventListener("click", async () => {
+      if (downloadBtn.disabled) return;
+      setStatus("Rendering mockup to image...");
+      try {
+        const canvas = await html2canvas(mockupContainer, {
+          useCORS: true,
+          backgroundColor: null,
+          scale: 2,
+        });
+        const dataUrl = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = "llamaload-mockup.png";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setStatus("Mockup downloaded as PNG.");
+      } catch (err) {
+        console.error(err);
+        setStatus("Failed to generate download image: " + err.message, true);
+      }
+    });
+  </script>
+</body>
+</html>
