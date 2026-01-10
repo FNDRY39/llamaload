@@ -5,12 +5,16 @@ const puppeteer = require("puppeteer");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ---------- TUNABLE QUALITY SETTINGS ----------
-// "Base" viewport in CSS pixels
-const VIEWPORT_WIDTH = 1920;
-const VIEWPORT_HEIGHT = 1080; // 16:9
-// How many device pixels per CSS pixel (2 = "retina", 3 = ultra)
-const DEVICE_SCALE = 2; // effective output: 3840x2160
+// ---------- QUALITY / SPEED TUNING ----------
+
+// High-res but not insane
+const VIEWPORT_WIDTH = 1440;
+const VIEWPORT_HEIGHT = 810;    // 16:9
+const DEVICE_SCALE = 2;         // effective 2880x1620
+
+// Timeouts (in ms)
+const NAVIGATION_TIMEOUT = 15000;
+const EXTRA_LAYOUT_WAIT = 600;  // small pause after DOM ready
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -60,6 +64,34 @@ async function handleScreenshot(req, res) {
     browser = await getBrowser();
     page = await browser.newPage();
 
+    // Set timeouts
+    page.setDefaultNavigationTimeout(NAVIGATION_TIMEOUT);
+    page.setDefaultTimeout(NAVIGATION_TIMEOUT);
+
+    // Block heavy / non-essential resources to speed things up
+    await page.setRequestInterception(true);
+    page.on("request", (request) => {
+      const url = request.url();
+      const type = request.resourceType();
+
+      // Block fonts and media (big, not critical for layout)
+      if (type === "font" || type === "media") {
+        return request.abort();
+      }
+
+      // Block common analytics / ad trackers
+      if (
+        /google-analytics\.com|gtag\/js|doubleclick\.net|googletagmanager\.com|facebook\.com\/tr|hotjar\.com|mixpanel\.com|segment\.com/i.test(
+          url
+        )
+      ) {
+        return request.abort();
+      }
+
+      // Otherwise, let it load
+      request.continue();
+    });
+
     // High-res viewport
     await page.setViewport({
       width: VIEWPORT_WIDTH,
@@ -68,24 +100,23 @@ async function handleScreenshot(req, res) {
     });
 
     await page.goto(targetUrl, {
-      // Faster than networkidle2; still gets full layout
-      waitUntil: "domcontentloaded",
-      timeout: 25000,
+      waitUntil: "domcontentloaded", // don't wait for every tiny request
+      timeout: NAVIGATION_TIMEOUT,
     });
 
-    // Let above-the-fold layout & fonts settle
-    await page.waitForTimeout(1200);
+    // Let above-the-fold layout settle
+    await page.waitForTimeout(EXTRA_LAYOUT_WAIT);
 
     const buffer = await page.screenshot({
       fullPage: false,
-      type: "png", // lossless, best for UI/text
-      // omitBackground: false, // leave as default
+      type: "png", // best for UI/text
     });
 
     res.setHeader("Content-Type", "image/png");
-    // Optional: suggest a filename for downloads
-    res.setHeader("Content-Disposition", 'inline; filename="llamaload-mockup.png"');
-
+    res.setHeader(
+      "Content-Disposition",
+      'inline; filename="llamaload-mockup.png"'
+    );
     res.send(buffer);
   } catch (err) {
     console.error("Screenshot error for URL:", targetUrl);
@@ -103,7 +134,7 @@ async function handleScreenshot(req, res) {
         console.error("Error closing page:", e);
       }
     }
-    // We intentionally do NOT close the browser; we reuse it
+    // Do NOT close the browser; we reuse it across requests
   }
 }
 
