@@ -5,16 +5,22 @@ const puppeteer = require("puppeteer");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ---------- QUALITY / SPEED TUNING ----------
+// ---------- 4K-STYLE QUALITY / SPEED TUNING ----------
+//
+// CSS viewport: 1920x1080 -> "normal 1080p desktop browser"
+// Device scale: 2          -> effective 3840x2160 (4K-ish)
+//
+// This gives you:
+// - Same zoom / layout as a typical full HD display
+// - 4K-level pixel density for a very sharp screenshot
 
-// High-res but not insane
-const VIEWPORT_WIDTH = 1440;
-const VIEWPORT_HEIGHT = 810;    // 16:9
-const DEVICE_SCALE = 2;         // effective 2880x1620
+const VIEWPORT_WIDTH = 1920;
+const VIEWPORT_HEIGHT = 1080;   // 16:9
+const DEVICE_SCALE = 2;
 
 // Timeouts (in ms)
 const NAVIGATION_TIMEOUT = 15000;
-const EXTRA_LAYOUT_WAIT = 600;  // small pause after DOM ready
+const EXTRA_LAYOUT_WAIT = 600;
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -68,18 +74,18 @@ async function handleScreenshot(req, res) {
     page.setDefaultNavigationTimeout(NAVIGATION_TIMEOUT);
     page.setDefaultTimeout(NAVIGATION_TIMEOUT);
 
-    // Block heavy / non-essential resources to speed things up
+    // Optional: block heavy / non-essential resources to keep it faster
     await page.setRequestInterception(true);
     page.on("request", (request) => {
       const url = request.url();
       const type = request.resourceType();
 
-      // Block fonts and media (big, not critical for layout)
+      // Block fonts and media (big, not needed for layout)
       if (type === "font" || type === "media") {
         return request.abort();
       }
 
-      // Block common analytics / ad trackers
+      // Block common analytics / ad / tracking
       if (
         /google-analytics\.com|gtag\/js|doubleclick\.net|googletagmanager\.com|facebook\.com\/tr|hotjar\.com|mixpanel\.com|segment\.com/i.test(
           url
@@ -88,11 +94,10 @@ async function handleScreenshot(req, res) {
         return request.abort();
       }
 
-      // Otherwise, let it load
       request.continue();
     });
 
-    // High-res viewport
+    // 4K-style viewport: 1920x1080 CSS, 2x pixel density -> 3840x2160 output
     await page.setViewport({
       width: VIEWPORT_WIDTH,
       height: VIEWPORT_HEIGHT,
@@ -100,7 +105,7 @@ async function handleScreenshot(req, res) {
     });
 
     await page.goto(targetUrl, {
-      waitUntil: "domcontentloaded", // don't wait for every tiny request
+      waitUntil: "domcontentloaded", // faster than networkidle2
       timeout: NAVIGATION_TIMEOUT,
     });
 
@@ -109,7 +114,7 @@ async function handleScreenshot(req, res) {
 
     const buffer = await page.screenshot({
       fullPage: false,
-      type: "png", // best for UI/text
+      type: "png", // lossless, best for UI/text
     });
 
     res.setHeader("Content-Type", "image/png");
@@ -134,7 +139,7 @@ async function handleScreenshot(req, res) {
         console.error("Error closing page:", e);
       }
     }
-    // Do NOT close the browser; we reuse it across requests
+    // Do NOT close the browser; we reuse it
   }
 }
 
