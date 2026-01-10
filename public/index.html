@@ -535,13 +535,16 @@
     });
 
 
-           // Cookie banner + Google Analytics consent logic
-    (function () {
+       // Cookie banner + Google Analytics consent logic
+    document.addEventListener("DOMContentLoaded", function () {
       const banner = document.getElementById("cookieBanner");
       const acceptBtn = document.getElementById("cookieAcceptBtn");
       const STORAGE_KEY = "llamaload_cookie_consent";
 
-      if (!banner || !acceptBtn) return;
+      if (!banner || !acceptBtn) {
+        console.warn("Cookie banner elements not found");
+        return;
+      }
 
       // Your GA4 Measurement ID
       const GA_MEASUREMENT_ID = "G-BBGFEYDLTD";
@@ -585,31 +588,32 @@
         hideBanner();
         loadGoogleAnalytics();
       });
-    })();
+    });
 
 
   </script>
-        <!-- COOKIE CONSENT BANNER -->
-  <div id="cookieBanner" class="cookie-banner" aria-live="polite">
-    <div class="cookie-banner-inner">
-      <div class="cookie-text">
-        <strong>Cookies & privacy</strong>
-        <span>
-          llamaload.com uses essential cookies to run this site and, if you
-          consent, Google Analytics to understand usage. By clicking “Accept”,
-          you agree to our use of cookies as described in our
-          <a href="/privacy.html" target="_blank" rel="noopener noreferrer">
-            Privacy & Cookies Policy
-          </a>.
-        </span>
-      </div>
-      <button id="cookieAcceptBtn" class="cookie-accept-btn">
-        Accept
-      </button>
+
+
+
+<!-- COOKIE CONSENT BANNER -->
+<div id="cookieBanner" class="cookie-banner" aria-live="polite">
+  <div class="cookie-banner-inner">
+    <div class="cookie-text">
+      <strong>Cookies & privacy</strong>
+      <span>
+        llamaload.com uses essential cookies to run this site and, if you
+        consent, Google Analytics to understand usage. By clicking “Accept”,
+        you agree to our use of cookies as described in our
+        <a href="/privacy.html" target="_blank" rel="noopener noreferrer">
+          Privacy & Cookies Policy
+        </a>.
+      </span>
     </div>
+    <button id="cookieAcceptBtn" class="cookie-accept-btn">
+      Accept
+    </button>
   </div>
-
-
+</div>
 
 
 

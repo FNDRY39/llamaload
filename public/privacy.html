@@ -333,25 +333,84 @@
     </article>
   </main>
 
-        <!-- COOKIE CONSENT BANNER -->
-  <div id="cookieBanner" class="cookie-banner" aria-live="polite">
-    <div class="cookie-banner-inner">
-      <div class="cookie-text">
-        <strong>Cookies & privacy</strong>
-        <span>
-          llamaload.com uses essential cookies to run this site and, if you
-          consent, Google Analytics to understand usage. By clicking “Accept”,
-          you agree to our use of cookies as described in our
-          <a href="/privacy.html" target="_blank" rel="noopener noreferrer">
-            Privacy & Cookies Policy
-          </a>.
-        </span>
-      </div>
-      <button id="cookieAcceptBtn" class="cookie-accept-btn">
-        Accept
-      </button>
+  <script>
+        // Cookie banner + Google Analytics consent logic
+    document.addEventListener("DOMContentLoaded", function () {
+      const banner = document.getElementById("cookieBanner");
+      const acceptBtn = document.getElementById("cookieAcceptBtn");
+      const STORAGE_KEY = "llamaload_cookie_consent";
+
+      if (!banner || !acceptBtn) {
+        console.warn("Cookie banner elements not found");
+        return;
+      }
+
+      // Your GA4 Measurement ID
+      const GA_MEASUREMENT_ID = "G-BBGFEYDLTD";
+
+      function loadGoogleAnalytics() {
+        if (!GA_MEASUREMENT_ID) return;
+
+        // Avoid loading GA multiple times
+        if (window.__llamaloadGaLoaded) return;
+        window.__llamaloadGaLoaded = true;
+
+        // This replicates the inline GA snippet Google gave you
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        window.gtag = gtag;
+
+        gtag("js", new Date());
+        gtag("config", GA_MEASUREMENT_ID);
+
+        // This replicates the <script async src="...gtag.js?id=...">
+        const script = document.createElement("script");
+        script.async = true;
+        script.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_MEASUREMENT_ID;
+        document.head.appendChild(script);
+      }
+
+      function hideBanner() {
+        banner.style.display = "none";
+      }
+
+      // Check stored consent on load
+      const hasConsent = localStorage.getItem(STORAGE_KEY);
+      if (hasConsent === "accepted") {
+        hideBanner();
+        loadGoogleAnalytics();
+      }
+
+      // When user clicks "Accept"
+      acceptBtn.addEventListener("click", () => {
+        localStorage.setItem(STORAGE_KEY, "accepted");
+        hideBanner();
+        loadGoogleAnalytics();
+      });
+    });
+
+  </script>
+
+<!-- COOKIE CONSENT BANNER -->
+<div id="cookieBanner" class="cookie-banner" aria-live="polite">
+  <div class="cookie-banner-inner">
+    <div class="cookie-text">
+      <strong>Cookies & privacy</strong>
+      <span>
+        llamaload.com uses essential cookies to run this site and, if you
+        consent, Google Analytics to understand usage. By clicking “Accept”,
+        you agree to our use of cookies as described in our
+        <a href="/privacy.html" target="_blank" rel="noopener noreferrer">
+          Privacy & Cookies Policy
+        </a>.
+      </span>
     </div>
+    <button id="cookieAcceptBtn" class="cookie-accept-btn">
+      Accept
+    </button>
   </div>
+</div>
+
 
 
 </body>
