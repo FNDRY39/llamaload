@@ -14,9 +14,9 @@ const PORT = process.env.PORT || 3000;
 // - Same zoom / layout as a typical full HD display
 // - 4K-level pixel density for a very sharp screenshot
 
-const VIEWPORT_WIDTH = 1920;
-const VIEWPORT_HEIGHT = 1080;   // 16:9
-const DEVICE_SCALE = 2;
+const VIEWPORT_WIDTH = 3840;
+const VIEWPORT_HEIGHT = 2160;
+const DEVICE_SCALE = 1;
 
 // Timeouts (in ms)
 const NAVIGATION_TIMEOUT = 15000;
