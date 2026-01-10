@@ -1,12 +1,16 @@
 {
   "name": "llamaload",
   "version": "1.0.0",
+  "description": "Generate clean browser mockups from any URL",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
-    "express": "^4.19.0",
-    "puppeteer": "^22.0.0"
+    "express": "^4.21.1",
+    "puppeteer": "19.11.1"
   }
 }
