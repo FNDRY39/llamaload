@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 const VIEWPORT_WIDTH = 1920;
 const VIEWPORT_HEIGHT = 1080; // 16:9
 // How many device pixels per CSS pixel (2 = "retina", 3 = ultra)
-const DEVICE_SCALE = 3; // effective output: 3840x2160
+const DEVICE_SCALE = 2; // effective output: 3840x2160
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
