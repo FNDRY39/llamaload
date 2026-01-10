@@ -5,12 +5,18 @@ const puppeteer = require("puppeteer");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// ---------- TUNABLE QUALITY SETTINGS ----------
+// "Base" viewport in CSS pixels
+const VIEWPORT_WIDTH = 1920;
+const VIEWPORT_HEIGHT = 1080; // 16:9
+// How many device pixels per CSS pixel (2 = "retina", 3 = ultra)
+const DEVICE_SCALE = 3; // effective output: 3840x2160
+
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Normalize user input into a valid URL
 function normalizeUrl(input) {
   if (!input) return null;
   let url = input.trim();
@@ -20,7 +26,7 @@ function normalizeUrl(input) {
   return url;
 }
 
-// ---------- Puppeteer: reuse one browser for speed ----------
+// ---------- Puppeteer: reuse a single browser ----------
 
 let browserPromise = null;
 
@@ -54,36 +60,40 @@ async function handleScreenshot(req, res) {
     browser = await getBrowser();
     page = await browser.newPage();
 
-    // Higher-res viewport for sharper output in your mockup
+    // High-res viewport
     await page.setViewport({
-      width: 1440,          // base frame width
-      height: 810,          // 16:9
-      deviceScaleFactor: 2, // retina-style; output is effectively 2880x1620
+      width: VIEWPORT_WIDTH,
+      height: VIEWPORT_HEIGHT,
+      deviceScaleFactor: DEVICE_SCALE,
     });
 
-    // Faster navigation: don't wait forever on ads/trackers
     await page.goto(targetUrl, {
+      // Faster than networkidle2; still gets full layout
       waitUntil: "domcontentloaded",
       timeout: 25000,
     });
 
-    // Small pause to let above-the-fold layout settle
-    await page.waitForTimeout(1000);
+    // Let above-the-fold layout & fonts settle
+    await page.waitForTimeout(1200);
 
     const buffer = await page.screenshot({
       fullPage: false,
-      type: "png",          // best visual quality for UI; switch to jpeg if you want smaller files
+      type: "png", // lossless, best for UI/text
+      // omitBackground: false, // leave as default
     });
 
     res.setHeader("Content-Type", "image/png");
+    // Optional: suggest a filename for downloads
+    res.setHeader("Content-Disposition", 'inline; filename="llamaload-mockup.png"');
+
     res.send(buffer);
   } catch (err) {
     console.error("Screenshot error for URL:", targetUrl);
     console.error(err);
     if (!res.headersSent) {
-      res
-        .status(500)
-        .json({ error: "Error taking screenshot: " + err.message });
+      res.status(500).json({
+        error: "Error taking screenshot: " + err.message,
+      });
     }
   } finally {
     if (page) {
@@ -93,7 +103,7 @@ async function handleScreenshot(req, res) {
         console.error("Error closing page:", e);
       }
     }
-    // Do NOT close the browser here; we reuse it across requests
+    // We intentionally do NOT close the browser; we reuse it
   }
 }
 
