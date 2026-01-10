@@ -30,7 +30,6 @@ async function handleScreenshot(req, res) {
   try {
     browser = await puppeteer.launch({
       headless: true,
-      executablePath: puppeteer.executablePath(),
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
@@ -59,14 +58,11 @@ async function handleScreenshot(req, res) {
     res.send(buffer);
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({ error: "Error taking screenshot: " + err.message });
+    res.status(500).json({ error: "Error taking screenshot: " + err.message });
   } finally {
     if (browser) await browser.close();
   }
 }
-
 
 // API route used by your frontend
 app.post("/api/screenshot", handleScreenshot);
