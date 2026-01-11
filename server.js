@@ -5,25 +5,10 @@ const puppeteer = require("puppeteer");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-<<<<<<< HEAD
-// ---------- 4K-STYLE QUALITY / SPEED TUNING ----------
-//
-// CSS viewport: 1920x1080 -> "normal 1080p desktop browser"
-// Device scale: 2          -> effective 3840x2160 (4K-ish)
-//
-// This gives you:
-// - Same zoom / layout as a typical full HD display
-// - 4K-level pixel density for a very sharp screenshot
-
-const VIEWPORT_WIDTH = 1920;
-const VIEWPORT_HEIGHT = 1080;   // 16:9
-const DEVICE_SCALE = 3;
-=======
 // ---------- DESKTOP VIEWPORT (mockup, snapshot, social landscape) ----------
 const DESKTOP_VIEWPORT_WIDTH = 1920;
 const DESKTOP_VIEWPORT_HEIGHT = 1080; // 16:9
 const DESKTOP_DEVICE_SCALE = 3;
->>>>>>> a12d1c7 (new pages)
 
 // Timeouts (in ms)
 const NAVIGATION_TIMEOUT = 15000;
@@ -71,27 +56,15 @@ async function captureScreenshot(targetUrl, { mobile = false } = {}) {
     page.setDefaultNavigationTimeout(NAVIGATION_TIMEOUT);
     page.setDefaultTimeout(NAVIGATION_TIMEOUT);
 
-<<<<<<< HEAD
-    // Optional: block heavy / non-essential resources to keep it faster
-=======
->>>>>>> a12d1c7 (new pages)
     await page.setRequestInterception(true);
     page.on("request", (request) => {
       const url = request.url();
       const type = request.resourceType();
 
-<<<<<<< HEAD
-      // Block fonts and media (big, not needed for layout)
-=======
->>>>>>> a12d1c7 (new pages)
       if (type === "font" || type === "media") {
         return request.abort();
       }
 
-<<<<<<< HEAD
-      // Block common analytics / ad / tracking
-=======
->>>>>>> a12d1c7 (new pages)
       if (
         /google-analytics\.com|gtag\/js|doubleclick\.net|googletagmanager\.com|facebook\.com\/tr|hotjar\.com|mixpanel\.com|segment\.com/i.test(
           url
@@ -103,14 +76,6 @@ async function captureScreenshot(targetUrl, { mobile = false } = {}) {
       request.continue();
     });
 
-<<<<<<< HEAD
-    // 4K-style viewport: 1920x1080 CSS, 2x pixel density -> 3840x2160 output
-    await page.setViewport({
-      width: VIEWPORT_WIDTH,
-      height: VIEWPORT_HEIGHT,
-      deviceScaleFactor: DEVICE_SCALE,
-    });
-=======
     if (mobile) {
       // TRUE MOBILE VIEW
       const devices = puppeteer.devices || {};
@@ -119,7 +84,6 @@ async function captureScreenshot(targetUrl, { mobile = false } = {}) {
         devices["iPhone 13"] ||
         devices["iPhone X"] ||
         null;
->>>>>>> a12d1c7 (new pages)
 
       if (iPhoneDevice) {
         console.log("→ Using MOBILE emulation:", iPhoneDevice.name);
@@ -150,11 +114,7 @@ async function captureScreenshot(targetUrl, { mobile = false } = {}) {
 
     console.log("Navigating to:", targetUrl, "mobile:", mobile);
     await page.goto(targetUrl, {
-<<<<<<< HEAD
-      waitUntil: "domcontentloaded", // faster than networkidle2
-=======
       waitUntil: "domcontentloaded",
->>>>>>> a12d1c7 (new pages)
       timeout: NAVIGATION_TIMEOUT,
     });
 
@@ -162,11 +122,7 @@ async function captureScreenshot(targetUrl, { mobile = false } = {}) {
 
     const buffer = await page.screenshot({
       fullPage: false,
-<<<<<<< HEAD
-      type: "png", // lossless, best for UI/text
-=======
       type: "png",
->>>>>>> a12d1c7 (new pages)
     });
 
     return buffer;
@@ -212,18 +168,6 @@ async function handleScreenshot(req, res) {
         error: "Error taking screenshot: " + err.message,
       });
     }
-<<<<<<< HEAD
-  } finally {
-    if (page) {
-      try {
-        await page.close();
-      } catch (e) {
-        console.error("Error closing page:", e);
-      }
-    }
-    // Do NOT close the browser; we reuse it
-=======
->>>>>>> a12d1c7 (new pages)
   }
 }
 
