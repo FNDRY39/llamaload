@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Primary SEO -->
+  <title>llamaload | Brand Snapshot Generator</title>
+  <meta name="description" content="Turn any URL into a quick brand snapshot: favicon, domain, above-the-fold screenshot and a small colour palette with labelled roles.">
+  <meta name="author" content="Ryan Murrell">
+  <meta name="generator" content="FNDRY39 Web Solutions">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index,follow">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://www.llamaload.com/snapshot.html">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:title" content="llamaload | Brand Snapshot Generator">
+  <meta property="og:description" content="Generate a quick brand card from any URL: favicon, screenshot and a small colour palette with labelled roles.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.llamaload.com/snapshot.html">
+  <meta property="og:site_name" content="llamaload">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:image" content="https://www.llamaload.com/img/logo-dark.png">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="llamaload | Brand Snapshot Generator">
+  <meta name="twitter:description" content="Paste a URL and get a brand snapshot: favicon, screenshot and a small colour palette.">
+  <meta name="twitter:image" content="https://www.llamaload.com/img/logo-dark.png">
+
+  <meta name="keywords" content="brand snapshot, colour palette from URL, favicon extractor, brand audit, design tools, indie hacker tools">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="imgs/llamaload favicon.png" />
+  <link rel="shortcut icon" href="imgs/llamaload favicon.png" />
+
+  <!-- html2canvas for snapshot card export (if you want to screenshot the card itself later) -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+  <main>
+    <!-- NAVBAR -->
+    <header class="nav">
+      <div class="nav-left">
+        <img
+          src="imgs/logo-dark.png"
+          alt="llamaload logo"
+          class="logo-mark"
+        />
+        <div>
+          <div class="logo-text">llamaload.com</div>
+          <div class="logo-sub">Brand snapshot generator</div>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="mockup.html">Mockup generator</a>
+        <a href="snapshot.html">Brand snapshot</a>
+        <a href="social.html">Social preview</a>
+      </nav>
+
+      <button class="nav-cta" onclick="document.getElementById('url').focus()">
+        <span class="icon">🎨</span>
+        <span>Paste a brand URL</span>
+      </button>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero hero--center">
+      <div>
+        <div class="hero-kicker">
+          <span class="hero-kicker-pill">Brand snapshot</span>
+          <span>Quick brand cards from a single URL.</span>
+        </div>
+        <h1>
+          Turn any site into a
+          <span class="highlight">mini brand snapshot</span>
+          in seconds.
+        </h1>
+        <p class="hero-subtitle hero-subtitle--wide">
+          Paste a link and llamaload will capture the above-the-fold view, grab the favicon and
+          build a small colour palette with labelled roles — handy for redesigns, audits and
+          quick references.
+        </p>
+
+        <div class="hero-cta hero-cta--stack">
+          <button
+            class="btn btn-primary"
+            onclick="document.getElementById('app').scrollIntoView({ behavior: 'smooth' })"
+          >
+            Scroll to generator
+            <span>↓</span>
+          </button>
+          <button
+            class="btn btn-secondary"
+            onclick="window.location.href='mockup.html'"
+          >
+            Use browser mockups instead
+          </button>
+        </div>
+
+        <div class="hero-pill-row">
+          <div class="hero-pill">Favicon + domain</div>
+          <div class="hero-pill">Above-the-fold screenshot</div>
+          <div class="hero-pill">5-colour palette with roles</div>
+        </div>
+      </div>
+
+      <div class="hero-visual hero-visual--focus">
+        <div class="hero-preview hero-preview--floating">
+          <div class="hero-preview-inner">
+            <div class="hero-preview-top">
+              <div class="hero-preview-dots">
+                <div class="hero-preview-dot red"></div>
+                <div class="hero-preview-dot yellow"></div>
+                <div class="hero-preview-dot green"></div>
+              </div>
+              <div class="hero-preview-chip">
+                <span>brand-snapshot.png</span>
+                <span>⬇️</span>
+              </div>
+            </div>
+            <div class="hero-preview-body hero-preview-body--compact">
+              Brand snapshots are simple reference cards: a favicon, a screenshot and a palette
+              you can quickly copy into your notes or design tools.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APP SECTION -->
+    <section id="app" class="section section-app">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Generate a brand snapshot</div>
+          <div class="section-subtitle">
+            Paste a URL and get a favicon, domain label, above-the-fold screenshot and a small
+            labelled colour palette.
+          </div>
+        </div>
+      </div>
+
+      <div class="app-shell">
+        <!-- Left: Controls -->
+        <div class="app-panel">
+          <h2>Brand snapshot from URL</h2>
+          <p>
+            Drop in any public website URL and llamaload will capture the top of the page,
+            infer a small palette from the screenshot and label a few roles for quick reference.
+          </p>
+
+          <form id="snapshotForm">
+            <div class="field-group">
+              <label for="url">Website URL</label>
+              <input
+                type="text"
+                id="url"
+                name="url"
+                placeholder="https://example.com"
+                required
+              />
+              <div class="hint">
+                You can also type <code>example.com</code> — we’ll add
+                <code>https://</code> for you.
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="note">Internal note (optional)</label>
+              <input
+                type="text"
+                id="note"
+                name="note"
+                placeholder="Client site • Q2 redesign"
+              />
+              <div class="hint">
+                This only lives in the snapshot card — useful for context when you save screenshots.
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full" id="generateBtn">
+              Generate brand snapshot
+              <span>🎨</span>
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-secondary-ghost"
+              id="downloadSnapshotBtn"
+              disabled
+            >
+              Download card PNG
+              <span>⬇️</span>
+            </button>
+
+            <div class="status" id="status"></div>
+            <div class="app-note">
+              Tip: Keep a folder of brand cards for your clients and their competitors
+              so you can compare palettes and visual tone at a glance.
+            </div>
+          </form>
+        </div>
+
+        <!-- Right: Brand snapshot card + palette -->
+        <div class="app-panel mockup-panel">
+          <div class="mockup-title">Live brand snapshot</div>
+
+          <div id="snapshotEmptyState" class="empty-state">
+            No brand snapshot yet. Paste a URL on the left and click
+            <strong>Generate brand snapshot</strong> to see a card with favicon, screenshot and a
+            small palette.
+          </div>
+
+          <div id="brandCard" class="brand-card">
+            <div class="brand-card-header">
+              <div class="brand-brand-row">
+                <img id="brandFavicon" class="brand-favicon" src="" alt="" />
+                <div>
+                  <div class="brand-domain" id="brandDomain">example.com</div>
+                  <div class="brand-note" id="brandNote">Internal note or context</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="brand-card-body">
+              <div class="brand-screenshot-wrap">
+                <div class="brand-screenshot-inner">
+                  <img
+                    id="brandScreenshot"
+                    src=""
+                    alt="Brand screenshot preview"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+
+              <div class="brand-palette">
+                <div class="brand-palette-header">
+                  <span class="brand-palette-title">Palette</span>
+                  <span class="brand-palette-sub" id="brandPaletteSub">
+                    Waiting for snapshot…
+                  </span>
+                </div>
+                <div id="paletteList" class="brand-palette-list">
+                  <!-- Swatches inserted here -->
+                </div>
+                <div class="brand-palette-export">
+                  <label for="cssExport">CSS tokens</label>
+                  <textarea
+                    id="cssExport"
+                    readonly
+                    class="brand-export-textarea"
+                    spellcheck="false"
+                  ></textarea>
+                  <button type="button" class="btn btn-secondary-ghost" id="copyCssBtn">
+                    Copy CSS tokens
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hidden image for palette extraction (we reuse brandScreenshot) -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT THE CREATOR -->
+    <section id="support" class="section support-section">
+      <div class="support-card">
+        <h2>Support the creator</h2>
+        <p>
+          If brand snapshots help you speed up client work, audits or redesigns, you can say thanks
+          by buying the creator a coffee.
+        </p>
+        <div class="support-meta">
+          <span>No subscriptions, just a simple tip jar.</span>
+        </div>
+        <a
+          href="https://buymeacoffee.com/llamaload"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="support-btn"
+        >
+          ☕ Buy the creator a coffee
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      © <span id="year"></span> llamaload.com.
+      Created and run by
+      <a
+        href="https://fndry39.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        FNDRY39.com
+      </a>
+    </div>
+    <div>
+      <a href="/">Home</a> ·
+      <a href="mockup.html">Mockup generator</a> ·
+      <a href="snapshot.html">Brand snapshot</a> ·
+      <a href="social.html">Social preview</a> ·
+      <a href="/privacy.html">Privacy & Cookies</a>
+    </div>
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const form = document.getElementById("snapshotForm");
+    const statusEl = document.getElementById("status");
+    const generateBtn = document.getElementById("generateBtn");
+    const downloadSnapshotBtn = document.getElementById("downloadSnapshotBtn");
+
+    const urlInput = document.getElementById("url");
+    const noteInput = document.getElementById("note");
+
+    const snapshotEmptyState = document.getElementById("snapshotEmptyState");
+    const brandCard = document.getElementById("brandCard");
+    const brandDomainEl = document.getElementById("brandDomain");
+    const brandNoteEl = document.getElementById("brandNote");
+    const brandFavicon = document.getElementById("brandFavicon");
+    const brandScreenshot = document.getElementById("brandScreenshot");
+    const paletteList = document.getElementById("paletteList");
+    const paletteSub = document.getElementById("brandPaletteSub");
+    const cssExport = document.getElementById("cssExport");
+    const copyCssBtn = document.getElementById("copyCssBtn");
+
+    let currentScreenshotUrl = null;
+
+    function setStatus(message, isError = false) {
+      statusEl.textContent = message || "";
+      statusEl.style.color = isError ? "#f97373" : "#9ca3af";
+    }
+
+    function normalizeUrl(input) {
+      if (!input) return "";
+      let url = input.trim();
+      if (!/^https?:\/\//i.test(url)) {
+        url = "https://" + url;
+      }
+      return url;
+    }
+
+    function deriveDomain(raw) {
+      if (!raw) return "";
+      const prepared = normalizeUrl(raw);
+      try {
+        const u = new URL(prepared);
+        return u.hostname.replace(/^www\./i, "");
+      } catch (e) {
+        return raw.trim();
+      }
+    }
+
+    function updateBrandMeta(url, note) {
+      const domain = deriveDomain(url);
+      brandDomainEl.textContent = domain || "example.com";
+      brandNoteEl.textContent = note || "Internal note or context";
+
+      if (domain) {
+        const faviconUrl =
+          "https://www.google.com/s2/favicons?sz=64&domain=" +
+          encodeURIComponent(domain);
+        brandFavicon.style.display = "block";
+        brandFavicon.src = faviconUrl;
+        brandFavicon.alt = domain + " favicon";
+        brandFavicon.onerror = () => {
+          brandFavicon.style.display = "none";
+        };
+      } else {
+        brandFavicon.style.display = "none";
+        brandFavicon.removeAttribute("src");
+        brandFavicon.removeAttribute("alt");
+      }
+    }
+
+    function rgbToHex(r, g, b) {
+      const toHex = (v) => {
+        const h = v.toString(16);
+        return h.length === 1 ? "0" + h : h;
+      };
+      return "#" + toHex(r) + toHex(g) + toHex(b);
+    }
+
+    function getLuminance(r, g, b) {
+      const srgb = [r, g, b].map((v) => {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
+    }
+
+    // Very simple palette extractor: quantise + pick top buckets
+    function extractPaletteFromImage(img, maxColors = 5) {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return [];
+
+      const w = 80;
+      const h = 50;
+      canvas.width = w;
+      canvas.height = h;
+      ctx.drawImage(img, 0, 0, w, h);
+
+      const { data } = ctx.getImageData(0, 0, w, h);
+      const buckets = new Map();
+
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        const a = data[i + 3];
+
+        if (a < 180) continue; // skip transparent
+        const maxC = Math.max(r, g, b);
+        const minC = Math.min(r, g, b);
+        if (maxC > 248 && minC > 248) continue; // almost white
+        if (maxC < 10 && minC < 10) continue;   // almost black
+
+        // Quantise to reduce unique values
+        const qr = Math.round(r / 24) * 24;
+        const qg = Math.round(g / 24) * 24;
+        const qb = Math.round(b / 24) * 24;
+        const key = qr + "," + qg + "," + qb;
+
+        const prev = buckets.get(key) || { r: 0, g: 0, b: 0, count: 0 };
+        prev.r += r;
+        prev.g += g;
+        prev.b += b;
+        prev.count += 1;
+        buckets.set(key, prev);
+      }
+
+      const entries = Array.from(buckets.entries()).map(([key, val]) => {
+        const r = Math.round(val.r / val.count);
+        const g = Math.round(val.g / val.count);
+        const b = Math.round(val.b / val.count);
+        const lum = getLuminance(r, g, b);
+        return {
+          key,
+          r,
+          g,
+          b,
+          hex: rgbToHex(r, g, b),
+          luminance: lum,
+          count: val.count,
+        };
+      });
+
+      entries.sort((a, b) => b.count - a.count);
+      const top = entries.slice(0, maxColors);
+      if (!top.length) return [];
+
+      // Sort by luminance (light -> dark) for role assignment
+      top.sort((a, b) => a.luminance - b.luminance);
+      return top;
+    }
+
+    function assignRoles(palette) {
+      if (!palette.length) return [];
+
+      const roles = ["Surface", "Subtle", "Primary", "Accent", "Text"];
+      const result = [];
+
+      // We sorted by luminance light -> dark
+      const copy = [...palette];
+
+      // Lightest as Surface
+      const surface = copy.shift();
+      if (surface) result.push({ role: "Surface", ...surface });
+
+      // If we still have items, use next as Subtle
+      if (copy.length) {
+        result.push({ role: "Subtle", ...copy.shift() });
+      }
+
+      // Take mid as Primary / Accent
+      if (copy.length) {
+        result.push({ role: "Primary", ...copy.shift() });
+      }
+      if (copy.length) {
+        result.push({ role: "Accent", ...copy.shift() });
+      }
+
+      // Darkest as Text
+      if (copy.length) {
+        const darkest = copy.pop();
+        result.push({ role: "Text", ...darkest });
+      }
+
+      return result;
+    }
+
+    function renderPalette(paletteWithRoles) {
+      paletteList.innerHTML = "";
+
+      if (!paletteWithRoles.length) {
+        paletteSub.textContent = "No palette could be extracted.";
+        cssExport.value = "";
+        return;
+      }
+
+      paletteSub.textContent = paletteWithRoles.length + " colours extracted";
+
+      paletteWithRoles.forEach((c) => {
+        const item = document.createElement("div");
+        item.className = "brand-swatch";
+
+        const swatch = document.createElement("div");
+        swatch.className = "brand-swatch-color";
+        swatch.style.backgroundColor = c.hex;
+
+        const meta = document.createElement("div");
+        meta.className = "brand-swatch-meta";
+
+        const roleEl = document.createElement("div");
+        roleEl.className = "brand-swatch-role";
+        roleEl.textContent = c.role;
+
+        const hexEl = document.createElement("div");
+        hexEl.className = "brand-swatch-hex";
+        hexEl.textContent = c.hex;
+
+        meta.appendChild(roleEl);
+        meta.appendChild(hexEl);
+        item.appendChild(swatch);
+        item.appendChild(meta);
+
+        paletteList.appendChild(item);
+      });
+
+      const cssLines = [];
+      cssLines.push(":root {");
+      paletteWithRoles.forEach((c) => {
+        const tokenName = c.role.toLowerCase().replace(/\s+/g, "-");
+        cssLines.push(`  --brand-${tokenName}: ${c.hex};`);
+      });
+      cssLines.push("}");
+      cssExport.value = cssLines.join("\n");
+    }
+
+    // Copy CSS tokens
+    copyCssBtn.addEventListener("click", () => {
+      if (!cssExport.value.trim()) return;
+      navigator.clipboard
+        .writeText(cssExport.value)
+        .then(() => {
+          setStatus("CSS tokens copied to clipboard.");
+        })
+        .catch(() => {
+          setStatus("Unable to copy CSS tokens.", true);
+        });
+    });
+
+    // Form submit: generate snapshot
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const rawUrl = urlInput.value.trim();
+      if (!rawUrl) {
+        setStatus("Please enter a URL.", true);
+        return;
+      }
+
+      const note = noteInput.value.trim();
+
+      setStatus("Capturing screenshot and extracting palette...");
+      generateBtn.disabled = true;
+      downloadSnapshotBtn.disabled = true;
+      generateBtn.textContent = "Working...";
+
+      if (currentScreenshotUrl) {
+        URL.revokeObjectURL(currentScreenshotUrl);
+        currentScreenshotUrl = null;
+      }
+
+      // Update domain/note right away
+      updateBrandMeta(rawUrl, note);
+
+      try {
+        const body = new URLSearchParams();
+        body.append("url", rawUrl);
+        // IMPORTANT: snapshot DOES NOT send "format", so server uses DESKTOP view
+
+        const response = await fetch("/api/screenshot", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+          },
+          body: body.toString(),
+        });
+
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(text || "Server error");
+        }
+
+        const blob = await response.blob();
+        const objectUrl = URL.createObjectURL(blob);
+        currentScreenshotUrl = objectUrl;
+
+        brandScreenshot.onload = () => {
+          const palette = extractPaletteFromImage(brandScreenshot, 5);
+          const withRoles = assignRoles(palette);
+          renderPalette(withRoles);
+        };
+
+        brandScreenshot.src = objectUrl;
+
+        snapshotEmptyState.style.display = "none";
+        brandCard.style.opacity = "1";
+        downloadSnapshotBtn.disabled = false;
+
+        setStatus("Brand snapshot generated. Palette extracted and card ready.");
+      } catch (err) {
+        console.error(err);
+        setStatus("Error: " + err.message, true);
+        downloadSnapshotBtn.disabled = true;
+      } finally {
+        generateBtn.disabled = false;
+        generateBtn.textContent = "Generate brand snapshot 🎨";
+      }
+    });
+
+    // Download the brand card as PNG (card-only)
+    downloadSnapshotBtn.addEventListener("click", async () => {
+      if (downloadSnapshotBtn.disabled) return;
+
+      setStatus("Rendering brand card to PNG...");
+      try {
+        const canvas = await html2canvas(brandCard, {
+          useCORS: true,
+          backgroundColor: null,
+          scale: 2,
+        });
+
+        const dataUrl = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = "llamaload-brand-snapshot.png";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        setStatus("Brand snapshot downloaded as PNG.");
+      } catch (err) {
+        console.error(err);
+        setStatus("Failed to generate card PNG: " + err.message, true);
+      }
+    });
+
+    // Cookie banner + GA (same pattern as other pages)
+    document.addEventListener("DOMContentLoaded", function () {
+      const banner = document.getElementById("cookieBanner");
+      const acceptBtn = document.getElementById("cookieAcceptBtn");
+      const STORAGE_KEY = "llamaload_cookie_consent";
+
+      if (!banner || !acceptBtn) {
+        console.warn("Cookie banner elements not found");
+        return;
+      }
+
+      const GA_MEASUREMENT_ID = "G-BBGFEYDLTD";
+
+      function loadGoogleAnalytics() {
+        if (!GA_MEASUREMENT_ID) return;
+        if (window.__llamaloadGaLoaded) return;
+        window.__llamaloadGaLoaded = true;
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        window.gtag = gtag;
+
+        gtag("js", new Date());
+        gtag("config", GA_MEASUREMENT_ID);
+
+        const script = document.createElement("script");
+        script.async = true;
+        script.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_MEASUREMENT_ID;
+        document.head.appendChild(script);
+      }
+
+      function hideBanner() {
+        banner.style.display = "none";
+      }
+
+      const hasConsent = localStorage.getItem(STORAGE_KEY);
+      if (hasConsent === "accepted") {
+        hideBanner();
+        loadGoogleAnalytics();
+      }
+
+      acceptBtn.addEventListener("click", () => {
+        localStorage.setItem(STORAGE_KEY, "accepted");
+        hideBanner();
+        loadGoogleAnalytics();
+      });
+    });
+  </script>
+
+  <!-- COOKIE CONSENT BANNER -->
+  <div id="cookieBanner" class="cookie-banner" aria-live="polite">
+    <div class="cookie-banner-inner">
+      <div class="cookie-text">
+        <strong>Cookies & privacy</strong>
+        <span>
+          llamaload.com uses essential cookies to run this site and, if you
+          consent, Google Analytics to understand usage. By clicking “Accept”,
+          you agree to our use of cookies as described in our
+          <a href="/privacy.html" target="_blank" rel="noopener noreferrer">
+            Privacy & Cookies Policy
+          </a>.
+        </span>
+      </div>
+      <button id="cookieAcceptBtn" class="cookie-accept-btn">
+        Accept
+      </button>
+    </div>
+  </div>
+</body>
+</html>

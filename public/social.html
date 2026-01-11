@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Primary SEO -->
+  <title>llamaload | Social Preview Generator</title>
+  <meta name="description" content="Generate clean, share-ready social preview images from any URL. Paste a link, tweak the title, and download a feed card or vertical PNG ready for X, LinkedIn, stories and changelogs.">
+  <meta name="author" content="Ryan Murrell">
+  <meta name="generator" content="FNDRY39 Web Solutions">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index,follow">
+
+  <link rel="canonical" href="https://www.llamaload.com/social.html">
+
+  <meta property="og:title" content="llamaload | Social Preview Generator">
+  <meta property="og:description" content="Turn any URL into a clean, share-ready social preview image. Landscape cards for feeds, vertical cards for stories.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.llamaload.com/social.html">
+  <meta property="og:site_name" content="llamaload">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:image" content="https://www.llamaload.com/img/logo-dark.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="llamaload | Social Preview Generator">
+  <meta name="twitter:description" content="Paste a URL and instantly generate social preview images that actually look good – landscape or vertical.">
+  <meta name="twitter:image" content="https://www.llamaload.com/img/logo-dark.png">
+
+  <meta name="keywords" content="social preview generator, link preview image, OG image tool, URL to social card, Twitter card image, LinkedIn share image, story image, reel cover">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="imgs/llamaload favicon.png" />
+  <link rel="shortcut icon" href="imgs/llamaload favicon.png" />
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+  <main>
+    <!-- NAVBAR -->
+    <header class="nav">
+      <div class="nav-left">
+        <img src="imgs/logo-dark.png" alt="llamaload logo" class="logo-mark" />
+        <div>
+          <div class="logo-text">llamaload.com</div>
+          <div class="logo-sub">Social preview generator</div>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="mockup.html">Mockup generator</a>
+        <a href="snapshot.html">Brand snapshot</a>
+        <a href="social.html">Social preview</a>
+      </nav>
+
+      <button class="nav-cta" onclick="document.getElementById('url').focus()">
+        <span class="icon">📣</span>
+        <span>Paste a URL</span>
+      </button>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero hero--center">
+      <div>
+        <div class="hero-kicker">
+          <span class="hero-kicker-pill">Social preview</span>
+          <span>Turn URLs into share-ready images.</span>
+        </div>
+        <h1>
+          Generate a
+          <span class="highlight">clean social preview</span>
+          from any URL.
+        </h1>
+        <p class="hero-subtitle hero-subtitle--wide">
+          Paste a link, tweak the title and URL line, and llamaload will generate a feed card or
+          phone-style story image that actually looks good when you share it.
+        </p>
+
+        <div class="hero-cta hero-cta--stack">
+          <button
+            class="btn btn-primary"
+            onclick="document.getElementById('app').scrollIntoView({ behavior: 'smooth' })"
+          >
+            Scroll to generator
+            <span>↓</span>
+          </button>
+          <button
+            class="btn btn-secondary"
+            onclick="window.location.href='mockup.html'"
+          >
+            Use browser mockups instead
+          </button>
+        </div>
+
+        <div class="hero-pill-row">
+          <div class="hero-pill">Feed cards (landscape)</div>
+          <div class="hero-pill">Stories / reels (vertical)</div>
+          <div class="hero-pill">Smart colour from your site</div>
+        </div>
+      </div>
+
+      <div class="hero-visual hero-visual--focus">
+        <div class="hero-preview hero-preview--floating">
+          <div class="hero-preview-inner">
+            <div class="hero-preview-top">
+              <div class="hero-preview-dots">
+                <div class="hero-preview-dot red"></div>
+                <div class="hero-preview-dot yellow"></div>
+                <div class="hero-preview-dot green"></div>
+              </div>
+              <div class="hero-preview-chip">
+                <span>social-preview.png</span>
+                <span>⬇️</span>
+              </div>
+            </div>
+            <div class="hero-preview-body hero-preview-body--compact">
+              The social preview generator composes a screenshot of your site with your chosen
+              headline and URL line into a feed-friendly card or a phone-style vertical image.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APP SECTION -->
+    <section id="app" class="section section-app">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Generate a social preview image</div>
+          <div class="section-subtitle">
+            No design file needed — just your URL, a format, a headline and one click to export.
+          </div>
+        </div>
+      </div>
+
+      <div class="social-shell">
+        <!-- Left: Controls -->
+        <div class="app-panel">
+          <h2>Create your card</h2>
+          <p>
+            Enter a URL and optional headline. llamaload will grab a screenshot of the page, place
+            it into a 1200×630 feed card or a vertical 9:16 phone-style layout, and overlay your text.
+          </p>
+
+          <form id="socialForm">
+            <div class="field-group">
+              <label for="url">Website URL</label>
+              <input
+                type="text"
+                id="url"
+                name="url"
+                placeholder="https://example.com"
+                required
+              />
+              <div class="hint">
+                You can also type <code>example.com</code> — we’ll add
+                <code>https://</code> for you.
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="headline">Headline (optional)</label>
+              <input
+                type="text"
+                id="headline"
+                name="headline"
+                placeholder="Short, clear, benefit-focused headline"
+              />
+              <div class="hint">
+                If left blank, we’ll use the domain as the main line.
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="urlLine">URL line (optional)</label>
+              <input
+                type="text"
+                id="urlLine"
+                name="urlLine"
+                placeholder="example.com • Product updates"
+              />
+              <div class="hint">
+                If left blank, we’ll generate something like <code>example.com</code>.
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="format">Format</label>
+              <select id="format" name="format">
+                <option value="landscape" selected>Feed card (landscape 1200×630)</option>
+                <option value="vertical">Story / phone (vertical 9:16)</option>
+              </select>
+              <div class="hint">
+                Use landscape for link previews and posts, vertical for stories, reels and shorts.
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="theme">Card theme</label>
+              <select id="theme" name="theme">
+                <option value="auto" selected>Smart (auto from screenshot)</option>
+                <option value="dark">Dark gradient</option>
+                <option value="light">Soft light</option>
+                <option value="slate">Midnight slate</option>
+                <option value="emerald">Emerald</option>
+                <option value="amber">Amber</option>
+                <option value="violet">Violet</option>
+              </select>
+              <div class="hint">
+                Use <strong>Smart</strong> to pull colours from the page, or pick a fixed theme.
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full" id="generateBtn">
+              Generate preview
+              <span>📣</span>
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-secondary-ghost"
+              id="downloadBtn"
+              disabled
+            >
+              Download PNG
+              <span>⬇️</span>
+            </button>
+
+            <div class="status" id="status"></div>
+            <div class="app-note">
+              Tip: Re-use the same layout for launch threads, weekly updates and changelog posts
+              so your product is instantly recognisable in both feeds and stories.
+            </div>
+          </form>
+        </div>
+
+        <!-- Right: Social preview card -->
+        <div class="app-panel social-preview-panel">
+          <div class="mockup-title">Live social card preview</div>
+
+          <div id="socialEmptyState" class="empty-state">
+            No preview yet. Fill in the fields on the left and click
+            <strong>Generate preview</strong> to see a feed or phone-style card.
+          </div>
+
+          <div
+            id="socialCard"
+            class="social-card theme-auto format-landscape"
+            aria-label="Social preview card"
+          >
+            <div class="social-card-inner">
+              <div class="social-card-bg"></div>
+              <div class="social-card-content">
+                <div class="social-text">
+                  <div class="social-brand-row">
+                    <img id="socialFavicon" class="social-favicon" src="" alt="" />
+                    <div class="social-brand-meta">
+                      <div class="social-brand-name" id="socialBrandName">
+                        example.com
+                      </div>
+                    </div>
+                  </div>
+                  <div class="social-tag">Preview</div>
+                  <div class="social-headline" id="socialHeadlineText">
+                    Example headline for your social preview
+                  </div>
+                  <div class="social-url-line" id="socialUrlLineText">
+                    example.com • New feature shipped
+                  </div>
+                </div>
+                <div class="social-image-wrap">
+                  <div class="social-image-inner">
+                    <img
+                      id="socialImage"
+                      src=""
+                      alt="Website screenshot preview"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hint" style="margin-top: 8px;">
+            Landscape format aligns with ~1200×630 link previews. Vertical format aligns with 9:16
+            stories, reels and shorts.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT THE CREATOR -->
+    <section id="support" class="section support-section">
+      <div class="support-card">
+        <h2>Support the creator</h2>
+        <p>
+          If the social preview generator saves you from wrestling with design tools for
+          every post, you can say thanks by buying the creator a coffee.
+        </p>
+        <div class="support-meta">
+          <span>No subscriptions, just a simple tip jar.</span>
+        </div>
+        <a
+          href="https://buymeacoffee.com/llamaload"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="support-btn"
+        >
+          ☕ Buy the creator a coffee
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      © <span id="year"></span> llamaload.com.
+      Created and run by
+      <a href="https://fndry39.com" target="_blank" rel="noopener noreferrer">
+        FNDRY39.com
+      </a>
+    </div>
+    <div>
+      <a href="/">Home</a> ·
+      <a href="mockup.html">Mockup generator</a> ·
+      <a href="snapshot.html">Brand snapshot</a> ·
+      <a href="social.html">Social preview</a> ·
+      <a href="/privacy.html">Privacy & Cookies</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const form = document.getElementById("socialForm");
+    const statusEl = document.getElementById("status");
+    const generateBtn = document.getElementById("generateBtn");
+    const downloadBtn = document.getElementById("downloadBtn");
+
+    const urlInput = document.getElementById("url");
+    const headlineInput = document.getElementById("headline");
+    const urlLineInput = document.getElementById("urlLine");
+    const themeSelect = document.getElementById("theme");
+    const formatSelect = document.getElementById("format");
+
+    const socialCard = document.getElementById("socialCard");
+    const socialEmptyState = document.getElementById("socialEmptyState");
+    const socialImage = document.getElementById("socialImage");
+    const socialHeadlineText = document.getElementById("socialHeadlineText");
+    const socialUrlLineText = document.getElementById("socialUrlLineText");
+    const socialBg = socialCard.querySelector(".social-card-bg");
+    const socialFavicon = document.getElementById("socialFavicon");
+    const socialBrandName = document.getElementById("socialBrandName");
+
+    let currentScreenshotBlobUrl = null;
+    let autoAccentColor = null;
+
+    function setStatus(message, isError = false) {
+      statusEl.textContent = message || "";
+      statusEl.style.color = isError ? "#f97373" : "#9ca3af";
+    }
+
+    function deriveDomain(raw) {
+      if (!raw) return "";
+      let prepared = raw.trim();
+      if (!/^https?:\/\//i.test(prepared)) {
+        prepared = "https://" + prepared;
+      }
+      try {
+        const u = new URL(prepared);
+        return u.hostname.replace(/^www\./i, "");
+      } catch (e) {
+        return prepared;
+      }
+    }
+
+    function updateBrandUI(domain) {
+      if (!domain) {
+        socialBrandName.textContent = "example.com";
+        socialFavicon.style.display = "none";
+        socialFavicon.removeAttribute("src");
+        socialFavicon.removeAttribute("alt");
+        return;
+      }
+
+      socialBrandName.textContent = domain;
+      const faviconUrl =
+        "https://www.google.com/s2/favicons?sz=64&domain=" +
+        encodeURIComponent(domain);
+
+      socialFavicon.style.display = "block";
+      socialFavicon.src = faviconUrl;
+      socialFavicon.alt = domain + " favicon";
+      socialFavicon.onerror = () => {
+        socialFavicon.style.display = "none";
+      };
+    }
+
+    function applyTheme() {
+      const theme = themeSelect.value;
+
+      socialCard.classList.remove(
+        "theme-auto",
+        "theme-dark",
+        "theme-light",
+        "theme-slate",
+        "theme-emerald",
+        "theme-amber",
+        "theme-violet"
+      );
+
+      socialBg.style.background = "";
+
+      if (theme === "auto") {
+        socialCard.classList.add("theme-auto");
+        if (autoAccentColor) {
+          socialBg.style.background =
+            "radial-gradient(circle at top left, " +
+            autoAccentColor +
+            ", #020617 55%), " +
+            "radial-gradient(circle at bottom right, #020617, #000 80%)";
+        }
+      } else {
+        socialCard.classList.add("theme-" + theme);
+      }
+    }
+
+    function applyFormat() {
+      const format = formatSelect.value;
+      socialCard.classList.remove("format-landscape", "format-vertical");
+      if (format === "vertical") {
+        socialCard.classList.add("format-vertical");
+      } else {
+        socialCard.classList.add("format-landscape");
+      }
+    }
+
+    themeSelect.addEventListener("change", applyTheme);
+
+        formatSelect.addEventListener("change", () => {
+        applyFormat();
+
+        const hasUrl = urlInput.value.trim();
+        if (!hasUrl) return; // nothing to regenerate yet
+
+        // If we already have a preview, auto-regenerate for the new format
+        if (socialCard.style.opacity === "1") {
+            form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+        }
+        });
+
+    function computeDominantColorFromImage(img) {
+      try {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return null;
+
+        const targetWidth = 80;
+        const targetHeight = 50;
+
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+        ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+        const imageData = ctx.getImageData(0, 0, targetWidth, targetHeight);
+        const data = imageData.data;
+
+        let rTotal = 0;
+        let gTotal = 0;
+        let bTotal = 0;
+        let count = 0;
+
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          const alpha = data[i + 3];
+
+          if (alpha < 128) continue;
+
+          const maxChannel = Math.max(r, g, b);
+          const minChannel = Math.min(r, g, b);
+          if (maxChannel > 245 && minChannel > 245) continue;
+          if (maxChannel < 20 && minChannel < 20) continue;
+
+          rTotal += r;
+          gTotal += g;
+          bTotal += b;
+          count++;
+        }
+
+        if (!count) return null;
+
+        const rAvg = Math.round(rTotal / count);
+        const gAvg = Math.round(gTotal / count);
+        const bAvg = Math.round(bTotal / count);
+
+        return "rgb(" + rAvg + "," + gAvg + "," + bAvg + ")";
+      } catch (e) {
+        console.warn("Failed to compute dominant color:", e);
+        return null;
+      }
+    }
+
+    // Live text + brand updates
+    headlineInput.addEventListener("input", () => {
+      const value = headlineInput.value.trim();
+      if (value) {
+        socialHeadlineText.textContent = value;
+      } else {
+        const domain = deriveDomain(urlInput.value);
+        socialHeadlineText.textContent = domain || "Your social preview headline";
+      }
+    });
+
+    urlLineInput.addEventListener("input", () => {
+      const value = urlLineInput.value.trim();
+      if (value) {
+        socialUrlLineText.textContent = value;
+      } else {
+        const domain = deriveDomain(urlInput.value);
+        socialUrlLineText.textContent = domain ? domain : "example.com";
+      }
+    });
+
+    urlInput.addEventListener("input", () => {
+      const domain = deriveDomain(urlInput.value);
+      if (!headlineInput.value.trim()) {
+        socialHeadlineText.textContent = domain || "Your social preview headline";
+      }
+      if (!urlLineInput.value.trim()) {
+        socialUrlLineText.textContent = domain || "example.com";
+      }
+      updateBrandUI(domain);
+    });
+
+    // initial layout
+    applyFormat();
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const rawUrl = urlInput.value.trim();
+      if (!rawUrl) {
+        setStatus("Please enter a URL.", true);
+        return;
+      }
+
+      setStatus("Capturing screenshot and building card...");
+      generateBtn.disabled = true;
+      downloadBtn.disabled = true;
+      generateBtn.textContent = "Working...";
+
+      autoAccentColor = null;
+      applyTheme();
+      applyFormat();
+
+      if (currentScreenshotBlobUrl) {
+        URL.revokeObjectURL(currentScreenshotBlobUrl);
+        currentScreenshotBlobUrl = null;
+      }
+
+      try {
+        const body = new URLSearchParams();
+        body.append("url", rawUrl);
+        body.append("format", formatSelect.value);   // << IMPORTANT
+
+        console.log("Social preview → /api/screenshot format:", formatSelect.value);
+
+        const response = await fetch("/api/screenshot", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+          },
+          body: body.toString(),
+        });
+
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(text || "Server error");
+        }
+
+        const blob = await response.blob();
+        const objectUrl = URL.createObjectURL(blob);
+        currentScreenshotBlobUrl = objectUrl;
+
+        socialImage.onload = () => {
+          autoAccentColor = computeDominantColorFromImage(socialImage);
+          applyTheme();
+        };
+
+        socialImage.src = objectUrl;
+
+        const domain = deriveDomain(rawUrl);
+        updateBrandUI(domain);
+
+        if (!headlineInput.value.trim()) {
+          socialHeadlineText.textContent = domain || "Your social preview headline";
+        }
+        if (!urlLineInput.value.trim()) {
+          socialUrlLineText.textContent = domain || "example.com";
+        }
+
+        socialCard.style.opacity = "1";
+        socialEmptyState.style.display = "none";
+        downloadBtn.disabled = false;
+
+        setStatus("Preview ready. You can now download your social image.");
+      } catch (err) {
+        console.error(err);
+        setStatus("Error: " + err.message, true);
+        downloadBtn.disabled = true;
+      } finally {
+        generateBtn.disabled = false;
+        generateBtn.textContent = "Generate preview 📣";
+      }
+    });
+
+    downloadBtn.addEventListener("click", async () => {
+      if (downloadBtn.disabled) return;
+      setStatus("Rendering card to PNG...");
+      try {
+        const canvas = await html2canvas(socialCard, {
+          useCORS: true,
+          backgroundColor: null,
+          scale: 2,
+        });
+
+        const dataUrl = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.href = dataUrl;
+
+        const suffix =
+          formatSelect.value === "vertical" ? "vertical" : "landscape";
+        link.download = "llamaload-social-preview-" + suffix + ".png";
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        setStatus("Social preview downloaded as PNG.");
+      } catch (err) {
+        console.error(err);
+        setStatus("Failed to generate image: " + err.message, true);
+      }
+    });
+
+    // Cookie banner + GA consent
+    document.addEventListener("DOMContentLoaded", function () {
+      const banner = document.getElementById("cookieBanner");
+      const acceptBtn = document.getElementById("cookieAcceptBtn");
+      const STORAGE_KEY = "llamaload_cookie_consent";
+
+      if (!banner || !acceptBtn) {
+        console.warn("Cookie banner elements not found");
+        return;
+      }
+
+      const GA_MEASUREMENT_ID = "G-BBGFEYDLTD";
+
+      function loadGoogleAnalytics() {
+        if (!GA_MEASUREMENT_ID) return;
+        if (window.__llamaloadGaLoaded) return;
+        window.__llamaloadGaLoaded = true;
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        window.gtag = gtag;
+
+        gtag("js", new Date());
+        gtag("config", GA_MEASUREMENT_ID);
+
+        const script = document.createElement("script");
+        script.async = true;
+        script.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_MEASUREMENT_ID;
+        document.head.appendChild(script);
+      }
+
+      function hideBanner() {
+        banner.style.display = "none";
+      }
+
+      const hasConsent = localStorage.getItem(STORAGE_KEY);
+      if (hasConsent === "accepted") {
+        hideBanner();
+        loadGoogleAnalytics();
+      }
+
+      acceptBtn.addEventListener("click", () => {
+        localStorage.setItem(STORAGE_KEY, "accepted");
+        hideBanner();
+        loadGoogleAnalytics();
+      });
+    });
+  </script>
+
+  <div id="cookieBanner" class="cookie-banner" aria-live="polite">
+    <div class="cookie-banner-inner">
+      <div class="cookie-text">
+        <strong>Cookies & privacy</strong>
+        <span>
+          llamaload.com uses essential cookies to run this site and, if you
+          consent, Google Analytics to understand usage. By clicking “Accept”,
+          you agree to our use of cookies as described in our
+          <a href="/privacy.html" target="_blank" rel="noopener noreferrer">
+            Privacy & Cookies Policy
+          </a>.
+        </span>
+      </div>
+      <button id="cookieAcceptBtn" class="cookie-accept-btn">
+        Accept
+      </button>
+    </div>
+  </div>
+</body>
+</html>

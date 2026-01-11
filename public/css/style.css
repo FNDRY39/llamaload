@@ -115,6 +115,234 @@
       font-size: 1rem;
     }
 
+    /* INDEX-SPECIFIC LAYOUT TWEAKS */
+
+.hero--center {
+  align-items: center;
+}
+
+.hero-subtitle--wide {
+  max-width: 540px;
+}
+
+.hero-cta--stack {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-visual--focus .hero-preview {
+  max-width: 420px;
+  margin-left: auto;
+}
+
+.hero-preview--floating {
+  transform: translateY(4px);
+}
+
+.hero-preview-body--compact {
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* Pill row under hero */
+
+.hero-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  margin-bottom: 8px;
+}
+
+.hero-pill {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  font-size: 0.78rem;
+  color: #e5e7eb;
+}
+
+/* Slightly tighter sections for landing */
+
+.section--tight {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.trust-row--tight {
+  padding-bottom: 14px;
+}
+
+/* Tool cards */
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.tool-card {
+  background: rgba(15, 23, 42, 0.96);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(31, 41, 55, 0.95);
+  padding: 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tool-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+}
+
+.tool-tag {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(75, 85, 99, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  color: #a5b4fc;
+}
+
+.tool-chip {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(22, 163, 74, 0.16);
+  border: 1px solid rgba(34, 197, 94, 0.6);
+  font-size: 0.74rem;
+  color: #bbf7d0;
+}
+
+.tool-title {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.tool-body {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.tool-list {
+  margin: 4px 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.tool-list li + li {
+  margin-top: 2px;
+}
+
+.tool-cta {
+  margin-top: 8px;
+}
+
+/* Flows / use cases */
+
+.flows-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.flow-card {
+  background: rgba(15, 23, 42, 0.96);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(31, 41, 55, 0.95);
+  padding: 14px 14px 12px;
+  font-size: 0.86rem;
+}
+
+.flow-eyebrow {
+  font-size: 0.78rem;
+  color: #a5b4fc;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.flow-title {
+  font-size: 0.95rem;
+  margin: 0 0 4px;
+}
+
+.flow-body {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0 0 6px;
+}
+
+.flow-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.flow-list li + li {
+  margin-top: 2px;
+}
+
+/* Mini stats row */
+
+.stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.stat-pill {
+  flex: 1 1 160px;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(31, 41, 55, 0.95);
+  background: rgba(15, 23, 42, 0.96);
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-label {
+  color: #9ca3af;
+}
+
+.stat-value {
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 900px) {
+  .tool-grid,
+  .flows-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-visual--focus .hero-preview {
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-pill-row {
+    gap: 6px;
+  }
+}
+
     /* HERO */
     .hero {
       display: grid;
@@ -869,5 +1097,452 @@
   }
   .cookie-accept-btn {
     align-self: flex-end;
+  }
+}
+
+
+/* SOCIAL PREVIEW LAYOUT */
+
+.social-shell {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(31, 41, 55, 0.98);
+  box-shadow: var(--shadow-lg);
+  padding: 18px 18px 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.social-preview-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Card shell */
+.social-card {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(31, 41, 55, 0.95);
+  margin: 0 auto;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  background: #020617;
+}
+
+/* Landscape format (feed card) */
+.social-card.format-landscape {
+  aspect-ratio: 1200 / 630;
+  max-width: 640px;
+}
+
+/* Vertical format (phone / story) */
+.social-card.format-vertical {
+  aspect-ratio: 9 / 16;
+  max-width: 360px;
+  border-radius: 32px;
+  border-width: 2px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.9);
+}
+
+/* Phone notch / status bar hint */
+.social-card.format-vertical::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  z-index: 2;
+}
+
+.social-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Background gradient (themed) */
+.social-card-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, #4f46e5, #020617 55%),
+    radial-gradient(circle at bottom right, #0f172a, #020617 75%);
+}
+
+/* Theme: Smart/auto (fallback if JS doesn't override inline) */
+.theme-auto .social-card-bg {
+  background:
+    radial-gradient(circle at top left, #6366f1, #020617 55%),
+    radial-gradient(circle at bottom right, #020617, #000 80%);
+}
+
+/* Theme: Dark */
+.theme-dark .social-card-bg {
+  background:
+    radial-gradient(circle at top left, #4f46e5, #020617 55%),
+    radial-gradient(circle at bottom right, #0f172a, #020617 75%);
+}
+
+/* Theme: Light */
+.theme-light .social-card-bg {
+  background:
+    radial-gradient(circle at top left, #e5e7eb, #c4b5fd 45%),
+    radial-gradient(circle at bottom right, #f97316, #111827 75%);
+}
+
+/* Theme: Slate */
+.theme-slate .social-card-bg {
+  background:
+    radial-gradient(circle at top left, #22d3ee, #020617 55%),
+    radial-gradient(circle at bottom right, #0f172a, #020617 75%);
+}
+
+/* Theme: Emerald */
+.theme-emerald .social-card-bg {
+  background:
+    radial-gradient(circle at top left, #34d399, #022c22 50%),
+    radial-gradient(circle at bottom right, #022c22, #020617 80%);
+}
+
+/* Theme: Amber */
+.theme-amber .social-card-bg {
+  background:
+    radial-gradient(circle at top left, #fbbf24, #7c2d12 45%),
+    radial-gradient(circle at bottom right, #7c2d12, #020617 80%);
+}
+
+/* Theme: Violet */
+.theme-violet .social-card-bg {
+  background:
+    radial-gradient(circle at top left, #a855f7, #312e81 45%),
+    radial-gradient(circle at bottom right, #312e81, #020617 80%);
+}
+
+/* Content layout (default: landscape grid) */
+.social-card-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+  gap: 18px;
+  padding: 18px 20px;
+  height: 100%;
+}
+.brand-card {
+  border-radius: 16px;
+  border: 1px solid rgba(31, 41, 55, 0.95);
+  background: rgba(15, 23, 42, 0.98);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+  padding: 14px 14px 12px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.brand-card-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+  margin-bottom: 10px;
+}
+
+.brand-brand-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.brand-favicon {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: #020617;
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  object-fit: contain;
+}
+
+.brand-domain {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.brand-note {
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.brand-card-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.brand-screenshot-wrap {
+  border-radius: 12px;
+  border: 1px solid #111827;
+  overflow: hidden;
+}
+
+.brand-screenshot-inner {
+  aspect-ratio: 16 / 9;
+  background: #020617;
+  border-radius: 12px;
+  overflow: hidden;
+
+  /* NEW: center the image inside this frame */
+  display: flex;
+  align-items: center;      /* vertical */
+  justify-content: center;  /* horizontal */
+
+}
+
+.brand-screenshot-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  object
+}
+
+.brand-palette {
+  font-size: 0.8rem;
+}
+
+.brand-palette-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  color: #9ca3af;
+}
+
+.brand-palette-title {
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+.brand-palette-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.brand-swatch {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.brand-swatch-color {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.9);
+}
+
+.brand-swatch-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-swatch-role {
+  font-size: 0.78rem;
+  color: #e5e7eb;
+}
+
+.brand-swatch-hex {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.brand-export-textarea {
+  width: 100%;
+  min-height: 80px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 0.78rem;
+  padding: 6px 8px;
+  resize: vertical;
+  margin-bottom: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+@media (max-width: 900px) {
+  .brand-card-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+
+/* Brand / favicon row */
+.social-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.social-favicon {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  display: none; /* shown when we have a favicon */
+}
+
+.social-brand-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.social-brand-name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+/* Left text block */
+.social-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  color: #f9fafb;
+}
+
+.social-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.social-headline {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.social-url-line {
+  font-size: 0.8rem;
+  color: #e5e7eb;
+  opacity: 0.9;
+}
+
+/* Right screenshot block */
+.social-image-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.social-image-inner {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.9);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.7);
+  background: #000;
+}
+
+.social-image-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Vertical layout overrides: make it feel like a phone */
+.social-card.format-vertical .social-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 22px 16px 18px;
+}
+
+.social-card.format-vertical .social-image-wrap {
+  justify-content: center;
+}
+
+/* Vertical screenshot window:
+   9:16 to feel like a vertical website snapshot */
+.social-card.format-vertical .social-image-inner {
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: 20px;
+}
+
+.social-card.format-vertical .social-text {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.social-card.format-vertical .social-headline {
+  font-size: 1.05rem;
+}
+
+.social-card.format-vertical .social-url-line {
+  font-size: 0.78rem;
+}
+
+/* Existing base social image styling (keep or adjust if needed) */
+.social-image-inner img,
+#socialImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* For landscape social cards: center the crop (default behaviour) */
+.social-card.format-landscape .social-image-inner img {
+  object-position: center center;
+}
+
+/* For vertical / phone cards: anchor the crop to the TOP */
+.social-card.format-vertical .social-image-inner img {
+  object-position: top center;
+}
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+  .social-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .social-card.format-landscape {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .social-shell {
+    padding: 14px 14px 16px;
+  }
+  .social-card-content {
+    padding: 14px 14px;
+  }
+  .social-card.format-vertical .social-card-content {
+    padding: 18px 12px 14px;
+  }
+  .social-headline {
+    font-size: 1rem;
   }
 }

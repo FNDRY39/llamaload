@@ -5,6 +5,7 @@ const puppeteer = require("puppeteer");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+<<<<<<< HEAD
 // ---------- 4K-STYLE QUALITY / SPEED TUNING ----------
 //
 // CSS viewport: 1920x1080 -> "normal 1080p desktop browser"
@@ -17,6 +18,12 @@ const PORT = process.env.PORT || 3000;
 const VIEWPORT_WIDTH = 1920;
 const VIEWPORT_HEIGHT = 1080;   // 16:9
 const DEVICE_SCALE = 3;
+=======
+// ---------- DESKTOP VIEWPORT (mockup, snapshot, social landscape) ----------
+const DESKTOP_VIEWPORT_WIDTH = 1920;
+const DESKTOP_VIEWPORT_HEIGHT = 1080; // 16:9
+const DESKTOP_DEVICE_SCALE = 3;
+>>>>>>> a12d1c7 (new pages)
 
 // Timeouts (in ms)
 const NAVIGATION_TIMEOUT = 15000;
@@ -37,7 +44,6 @@ function normalizeUrl(input) {
 }
 
 // ---------- Puppeteer: reuse a single browser ----------
-
 let browserPromise = null;
 
 async function getBrowser() {
@@ -53,16 +59,8 @@ async function getBrowser() {
   return browserPromise;
 }
 
-// ---------- Screenshot handler ----------
-
-async function handleScreenshot(req, res) {
-  const rawUrl = req.body.url;
-  const targetUrl = normalizeUrl(rawUrl);
-
-  if (!targetUrl) {
-    return res.status(400).json({ error: "No URL provided." });
-  }
-
+// ---------- Core capture helper ----------
+async function captureScreenshot(targetUrl, { mobile = false } = {}) {
   let browser;
   let page;
 
@@ -70,22 +68,30 @@ async function handleScreenshot(req, res) {
     browser = await getBrowser();
     page = await browser.newPage();
 
-    // Set timeouts
     page.setDefaultNavigationTimeout(NAVIGATION_TIMEOUT);
     page.setDefaultTimeout(NAVIGATION_TIMEOUT);
 
+<<<<<<< HEAD
     // Optional: block heavy / non-essential resources to keep it faster
+=======
+>>>>>>> a12d1c7 (new pages)
     await page.setRequestInterception(true);
     page.on("request", (request) => {
       const url = request.url();
       const type = request.resourceType();
 
+<<<<<<< HEAD
       // Block fonts and media (big, not needed for layout)
+=======
+>>>>>>> a12d1c7 (new pages)
       if (type === "font" || type === "media") {
         return request.abort();
       }
 
+<<<<<<< HEAD
       // Block common analytics / ad / tracking
+=======
+>>>>>>> a12d1c7 (new pages)
       if (
         /google-analytics\.com|gtag\/js|doubleclick\.net|googletagmanager\.com|facebook\.com\/tr|hotjar\.com|mixpanel\.com|segment\.com/i.test(
           url
@@ -97,30 +103,105 @@ async function handleScreenshot(req, res) {
       request.continue();
     });
 
+<<<<<<< HEAD
     // 4K-style viewport: 1920x1080 CSS, 2x pixel density -> 3840x2160 output
     await page.setViewport({
       width: VIEWPORT_WIDTH,
       height: VIEWPORT_HEIGHT,
       deviceScaleFactor: DEVICE_SCALE,
     });
+=======
+    if (mobile) {
+      // TRUE MOBILE VIEW
+      const devices = puppeteer.devices || {};
+      const iPhoneDevice =
+        devices["iPhone 12"] ||
+        devices["iPhone 13"] ||
+        devices["iPhone X"] ||
+        null;
+>>>>>>> a12d1c7 (new pages)
 
+      if (iPhoneDevice) {
+        console.log("→ Using MOBILE emulation:", iPhoneDevice.name);
+        await page.emulate(iPhoneDevice);
+      } else {
+        console.log("→ Using MOBILE viewport fallback");
+        await page.setUserAgent(
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) " +
+            "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 " +
+            "Mobile/15E148 Safari/604.1"
+        );
+        await page.setViewport({
+          width: 430,
+          height: 932,
+          deviceScaleFactor: 3,
+          isMobile: true,
+          hasTouch: true,
+        });
+      }
+    } else {
+      console.log("→ Using DESKTOP viewport");
+      await page.setViewport({
+        width: DESKTOP_VIEWPORT_WIDTH,
+        height: DESKTOP_VIEWPORT_HEIGHT,
+        deviceScaleFactor: DESKTOP_DEVICE_SCALE,
+      });
+    }
+
+    console.log("Navigating to:", targetUrl, "mobile:", mobile);
     await page.goto(targetUrl, {
+<<<<<<< HEAD
       waitUntil: "domcontentloaded", // faster than networkidle2
+=======
+      waitUntil: "domcontentloaded",
+>>>>>>> a12d1c7 (new pages)
       timeout: NAVIGATION_TIMEOUT,
     });
 
-    // Let above-the-fold layout settle
     await page.waitForTimeout(EXTRA_LAYOUT_WAIT);
 
     const buffer = await page.screenshot({
       fullPage: false,
+<<<<<<< HEAD
       type: "png", // lossless, best for UI/text
+=======
+      type: "png",
+>>>>>>> a12d1c7 (new pages)
     });
 
+    return buffer;
+  } finally {
+    if (page) {
+      try {
+        await page.close();
+      } catch (e) {
+        console.error("Error closing page:", e);
+      }
+    }
+  }
+}
+
+// ---------- Single screenshot endpoint ----------
+async function handleScreenshot(req, res) {
+  const targetUrl = normalizeUrl(req.body.url);
+  if (!targetUrl) {
+    return res.status(400).json({ error: "No URL provided." });
+  }
+
+  const format = (req.body.format || "").toLowerCase();
+  const mobile = format === "vertical"; // ONLY vertical social uses mobile
+  console.log("Screenshot request:", {
+    url: targetUrl,
+    format: format || "(none)",
+    mobile,
+  });
+
+  try {
+    const buffer = await captureScreenshot(targetUrl, { mobile });
     res.setHeader("Content-Type", "image/png");
     res.setHeader(
       "Content-Disposition",
-      'inline; filename="llamaload-mockup.png"'
+      'inline; filename="llamaload-screenshot.png"'
     );
     res.send(buffer);
   } catch (err) {
@@ -131,6 +212,7 @@ async function handleScreenshot(req, res) {
         error: "Error taking screenshot: " + err.message,
       });
     }
+<<<<<<< HEAD
   } finally {
     if (page) {
       try {
@@ -140,13 +222,13 @@ async function handleScreenshot(req, res) {
       }
     }
     // Do NOT close the browser; we reuse it
+=======
+>>>>>>> a12d1c7 (new pages)
   }
 }
 
-// API route used by your frontend
 app.post("/api/screenshot", handleScreenshot);
 
-// Start server
 app.listen(PORT, () => {
   console.log(`llamaload running on port ${PORT}`);
 });
