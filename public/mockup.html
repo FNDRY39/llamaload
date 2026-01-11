@@ -62,7 +62,7 @@
 </head>
 <body>
   <main>
-        <!-- NAVBAR -->
+    <!-- NAVBAR -->
     <header class="nav">
       <div class="nav-left">
         <img src="imgs/logo-dark.png" alt="llamaload logo" class="logo-mark" />
@@ -428,20 +428,41 @@
       }
     });
 
-    // Download the raw Puppeteer screenshot (high quality, fast)
-    downloadBtn.addEventListener("click", () => {
-      if (downloadBtn.disabled || !currentBlobUrl) return;
+    // Download the FULL mockup (browser chrome + screenshot) as PNG
+    downloadBtn.addEventListener("click", async () => {
+      if (downloadBtn.disabled) return;
+
       try {
+        const mockupElement = document.getElementById("mockupContainer");
+        if (!mockupElement) {
+          setStatus("Could not find mockup container to export.", true);
+          return;
+        }
+
+        setStatus("Preparing mockup image...");
+        downloadBtn.disabled = true;
+
+        // Render the mockup DOM into a canvas
+        const canvas = await html2canvas(mockupElement, {
+          backgroundColor: null, // keep background transparent if possible
+          scale: 2               // higher resolution export
+        });
+
+        const dataUrl = canvas.toDataURL("image/png");
+
         const link = document.createElement("a");
-        link.href = currentBlobUrl;
+        link.href = dataUrl;
         link.download = "llamaload-mockup.png";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        setStatus("Screenshot downloaded as PNG.");
+
+        setStatus("Mockup downloaded as PNG.");
       } catch (err) {
         console.error(err);
-        setStatus("Failed to download screenshot: " + err.message, true);
+        setStatus("Failed to download mockup: " + err.message, true);
+      } finally {
+        downloadBtn.disabled = false;
       }
     });
 
@@ -513,5 +534,8 @@
       </button>
     </div>
   </div>
+
+  <!-- html2canvas for exporting the full mockup -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </body>
 </html>
