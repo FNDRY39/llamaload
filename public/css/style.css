@@ -115,6 +115,42 @@
       font-size: 1rem;
     }
 
+
+/* Phones */
+@media (max-width: 640px) {
+  .nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .nav-left {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  /* Links get their own row, full width */
+  .nav-links {
+    order: 2;
+    width: 100%;
+    justify-content: flex-start;
+    row-gap: 4px;
+  }
+
+  .nav-links a {
+    padding: 6px 10px;
+  }
+
+  /* CTA becomes full-width button for easier tapping */
+  .nav-cta {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    margin-left: 0;
+    margin-top: 4px;
+  }
+}
+
     /* INDEX-SPECIFIC LAYOUT TWEAKS */
 
 .hero--center {
@@ -1308,7 +1344,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  object
 }
 
 .brand-palette {
@@ -1544,5 +1579,181 @@
   }
   .social-headline {
     font-size: 1rem;
+  }
+}
+
+
+/* --- MOBILE & RESPONSIVE OVERRIDES --- */
+
+/* Tablets and down */
+@media (max-width: 1024px) {
+  main {
+    padding: 16px 16px 32px;
+  }
+
+  /* Hero stacks */
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .hero-visual {
+    order: -1; /* screenshot moves above text */
+  }
+
+  .hero-visual--focus .hero-preview {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  /* App & social preview: single column */
+  .app-shell,
+  .social-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* All the card grids become single column */
+  .features-grid,
+  .steps,
+  .tool-grid,
+  .flows-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Hide desktop nav links on smaller screens
+     (you can add a burger menu later) */
+  .nav-links {
+    display: none;
+  }
+}
+
+/* Phones */
+@media (max-width: 640px) {
+  body {
+    overflow-x: hidden; /* kill any stray horizontal scroll */
+  }
+
+  main {
+    padding: 14px 12px 26px;
+  }
+
+  .hero {
+    padding: 14px 0 20px;
+    gap: 18px;
+  }
+
+  .hero h1 {
+    font-size: 1.9rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+    max-width: 100%;
+  }
+
+  /* CTAs stack & fill width for better tap targets */
+  .hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-cta .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  /* App + social shells: softer padding on phone */
+  .app-shell,
+  .social-shell {
+    padding: 14px 12px 16px;
+  }
+
+  .app-panel,
+  .support-card {
+    padding: 14px 12px 14px;
+  }
+
+  /* Browser mockup: more vertical, like a phone */
+  .browser-mockup {
+    aspect-ratio: 9 / 16;
+    max-width: 100%;
+  }
+
+  /* Social card inner padding */
+  .social-card-content {
+    padding: 14px 12px;
+    gap: 12px;
+  }
+
+  /* Vertical social card: no overflow on mobile */
+  .social-card.format-vertical {
+    max-width: 100%;
+    border-radius: 28px;
+  }
+
+  .social-card.format-vertical .social-card-content {
+    padding: 18px 10px 14px;
+  }
+
+  .social-card.format-vertical .social-image-inner {
+    border-radius: 18px;
+  }
+
+  .social-headline {
+    font-size: 1rem;
+  }
+
+  /* Brand card: make sure it fits nicely */
+  .brand-card {
+    margin: 0;
+  }
+
+  /* Cookie banner: edge-to-edge at bottom */
+  .cookie-banner-inner {
+    margin: 0;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+  }
+}
+
+/* === MOBILE NAV FIX & HEADER OPTIMIZATION === */
+
+/* Tablets & small laptops */
+@media (max-width: 1024px) {
+  /* Keep the nav visible and let it wrap nicely */
+  .nav {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+
+  .nav-left {
+    flex-shrink: 0;
+  }
+
+  /* Re-enable nav links (override earlier display:none) */
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 8px;
+    font-size: 0.82rem;
+  }
+
+  .nav-links a {
+    padding: 6px 10px;
+  }
+
+  /* Keep the CTA on the right, but allow it to wrap below on tighter widths */
+  .nav-cta {
+    margin-left: auto;
   }
 }
