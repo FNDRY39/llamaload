@@ -1,5 +1,6 @@
 const express = require("express");
-const path = require("path");
+const path = require('path');
+const fs = require('fs'); 
 const puppeteer = require("puppeteer");
 
 const app = express();
@@ -25,6 +26,27 @@ const MOBILE_VIEWPORT = {
 
 const NAVIGATION_TIMEOUT = 15000; // ms
 const EXTRA_LAYOUT_WAIT = 600;    // ms
+
+
+// Pretty URLs for the main pages (no .html in the URL)
+
+// Home page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Generic handler: /mockup -> public/mockup.html, /snapshot -> public/snapshot.html, etc.
+app.get('/:page', (req, res, next) => {
+  const page = req.params.page;
+  const filePath = path.join(__dirname, 'public', `${page}.html`);
+
+  if (fs.existsSync(filePath)) {
+    return res.sendFile(filePath);
+  }
+
+  // If no matching HTML file, pass to the next route (like static files or 404)
+  return next();
+});
 
 // ---------- EXPRESS MIDDLEWARE ----------
 
